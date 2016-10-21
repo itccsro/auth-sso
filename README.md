@@ -28,7 +28,9 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 - [npm](https://github.com/npm/npm)
 - [1][MySQL](http://www.mysql.com/)
 
-
+```
+[1] Posibil să se schimbe în viitorul apropiat
+```
 
 ### Extra techs (folosite la SDKs, samples & integration)
 - [React](https://facebook.github.io/react/)
@@ -36,12 +38,8 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 - [Java SE] (http://www.oracle.com/technetwork/java/javase/overview/index.html)
 - [Java EE](http://www.oracle.com/technetwork/java/javaee/overview/index.html)
 - [Python] (https://www.python.org/)
-- [1] Others :simle:
+- Others :-)
 
-
-```
-[1] Posibil să se schimbe în viitorul apropiat
-```
 ## Contribuie
 
 Dacă vrei să contribui - ești binevenit(ă) - but we don't have cookies (yet) 
