@@ -21,22 +21,27 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 - `dotnet run`
 
 ## Tehnologii folosite
-- [.NET Core] https://www.microsoft.com/net/core
-- [AngularJS] https://angularjs.org/
-- [Docker] https://docs.docker.com/engine/installation/
-- [npm] https://github.com/npm/npm
-- [1][MySQL] http://www.mysql.com/
+- [Identity Server](https://identityserver.io/)
+- [.NET Core](https://www.microsoft.com/net/core)
+- [AngularJS](https://angularjs.org/)
+- [Docker](https://docs.docker.com/engine/installation/)
+- [npm](https://github.com/npm/npm)
+- [1][MySQL](http://www.mysql.com/)
+
+
+
+### Extra techs (folosite la SDKs, samples & integration)
+- [React](https://facebook.github.io/react/)
+- [PHP](http://www.php.net/)
+- [Java SE] (http://www.oracle.com/technetwork/java/javase/overview/index.html)
+- [Java EE](http://www.oracle.com/technetwork/java/javaee/overview/index.html)
+- [Python] (https://www.python.org/)
+- [1] Others :simle:
+
 
 ```
 [1] Posibil să se schimbe în viitorul apropiat
 ```
-
-### Extra techs (folosite la SDKs, samples & integration)
-- [React]
-- [PHP]
-- [Java]
-- [Python]
-
 ## Contribuie
 
 Dacă vrei să contribui - ești binevenit(ă) - but we don't have cookies (yet) 
