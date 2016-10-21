@@ -1,25 +1,24 @@
 # Citizen Single Sign On - GovIT Hub Authenticator 
-Un singur set de credentiale pentru cetatean. La baza este un identity server ce expune un endpoint Outh2.
+Un singur set de credențiale pentru cetățean. La bază este un identity server ce expune un endpoint Outh2.
 
 ## [1]Instalare
-branch from master
-create database sso
-modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\appsettings.json to reflect database connection string
+- branch from master
+- create database sso
+- modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\appsettings.json to reflect database connection string
 
 ### Identity server
-
-open shell (command promt)
-go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
-npm install
-dotnet ef database update
-npm install
-dotnet run
+- open shell (command promt)
+- go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
+- `npm install`
+- `dotnet ef database update`
+- `npm install`
+- `dotnet run`
 
 ### Javascript client sample
-open shell (command promt)
-go to \\govithub-auth-sso\src\samples\JavaScriptClient
-npm install
-dotnet run
+- open shell (command promt)
+- go to \\govithub-auth-sso\src\samples\JavaScriptClient
+- `npm install`
+- `dotnet run`
 
 ## Tehnologii folosite
 - [.NET Core] https://www.microsoft.com/net/core
