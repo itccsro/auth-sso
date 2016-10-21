@@ -32,7 +32,7 @@ dotnet run
 [1] Posibil să se schimbe în viitorul apropiat
 ```
 
-### Extra (SDKs, samples & integration)
+### Extra techs (folosite la SDKs, samples & integration)
 - [React]
 - [PHP]
 - [Java]
