@@ -53,6 +53,6 @@ Dacă vrei să contribui - ești binevenit(ă) - but we don't have cookies (yet)
 
 ## Cum poti intra in contact cu echipa?
 - Email: alexandru.chiraples@ithub.gov.ro
-- [Slack](https://govithub.slack.com/messages/gov-authenticator/details/) 
+- [Slack](https://govithub.slack.com/messages/gov-authenticator/details/). Pentru invite intrați pe http://govitslack.herokuapp.com/
 
 Mai multe detalii în curând! 
