@@ -4,7 +4,7 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 ## Instalare
 - branch from master
 - create database sso
-- modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\appsettings.json to reflect database connection string
+- modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\connectionstrings.json to reflect database connection string
 
 ### Identity server
 - open shell (command promt)
