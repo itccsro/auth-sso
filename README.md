@@ -4,8 +4,14 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 ## Instalare
 - branch from master
 - create database sso
-- open git bash and run `git update-index --assume-unchanged ./src/GotITHub.Auth.Identity/connectionstrings.json` to ignore the local changes to `connectionstrings.json` file
-- modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\connectionstrings.json to reflect database connection string
+- create file `./src/GotITHub.Auth.Identity/connectionstrings.json` containing the connection string to the database like in example below:
+```
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "server=localhost;userid=<user id>;pwd=<password>;port=3306;database=sso;sslmode=none;"
+  }
+}
+```
 
 ### Identity server
 - open shell (command promt)
