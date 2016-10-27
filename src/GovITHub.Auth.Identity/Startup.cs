@@ -17,6 +17,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using System.Reflection;
 using System.Diagnostics;
+using GovITHub.Auth.Identity.Data.MySqlDAL;
 //using MySQL.Data.EntityFrameworkCore.Extensions;
 
 namespace GovITHub.Auth.Identity
@@ -62,6 +63,7 @@ namespace GovITHub.Auth.Identity
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IConfigRepository, ConfigRepository>();
 
             // Add service and create Policy with options
             services.AddCors(options =>
@@ -132,36 +134,29 @@ namespace GovITHub.Auth.Identity
 
         private void InitializeDatabase(IApplicationBuilder app)
         {
-            try
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                context.Database.Migrate();
+                if (context.Clients.FirstOrDefault() == null)
                 {
-                    scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-
-                    var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                    context.Database.Migrate();
-                    if (context.Clients.FirstOrDefault() == null)
+                    foreach (var client in Config.GetClients())
                     {
-                        foreach (var client in Config.GetClients())
-                        {
-                            context.Clients.Add(client.ToEntity());
-                        }
-                        context.SaveChanges();
+                        context.Clients.Add(client.ToEntity());
                     }
-
-                    if (context.Scopes.FirstOrDefault() == null)
-                    {
-                        foreach (var client in Config.GetScopes())
-                        {
-                            context.Scopes.Add(client.ToEntity());
-                        }
-                        context.SaveChanges();
-                    }
+                    context.SaveChanges();
                 }
-            }
-            catch(Exception ex)
-            {
-                Trace.TraceError("Error : {0}", ex);
+
+                if (context.Scopes.FirstOrDefault() == null)
+                {
+                    foreach (var client in Config.GetScopes())
+                    {
+                        context.Scopes.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
             }
         }
     }
