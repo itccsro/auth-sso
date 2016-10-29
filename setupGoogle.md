@@ -1,24 +1,12 @@
-## Requirements
-npm https://www.npmjs.com/
-.net core https://www.microsoft.com/net/core
-mysql http://www.mysql.com/
+## Google app setup
+Setup app on https://console.developers.google.com/
 
-## Steps
-branch from master
-create database sso
-modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\appsettings.json to reflect database connection string
+On credentials edit form, set Authorized redirect URIs to [appURL]/signin-google (e.g. http://localhost:5000/signin-google)
 
-### Identity server
 
-open shell (command promt)
-go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
-npm install
-dotnet ef database update
-npm install
-dotnet run
+## Dev setup
+open shell
 
-### Javascript client sample
-open shell (command promt)
-go to \\govithub-auth-sso\src\samples\JavaScriptClient
-npm install
-dotnet run
+dotnet user-secrets set GoogleClientId **valueOfGoogleClientId**
+
+dotnet user-secrets set GoogleClientSecret **valueOfGoogleClientSecret**
