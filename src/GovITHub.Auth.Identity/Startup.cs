@@ -1,7 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GovITHub.Auth.Identity.Data;
+using GovITHub.Auth.Identity.Data.MySqlDAL;
+using GovITHub.Auth.Identity.Models;
+using GovITHub.Auth.Identity.Services;
+using IdentityServer4;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,15 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using GovITHub.Auth.Identity.Data;
-using GovITHub.Auth.Identity.Models;
-using GovITHub.Auth.Identity.Services;
 using MySQL.Data.Entity.Extensions;
-using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Mappers;
+using System;
+using System.Linq;
 using System.Reflection;
-using System.Diagnostics;
-using GovITHub.Auth.Identity.Data.MySqlDAL;
 //using MySQL.Data.EntityFrameworkCore.Extensions;
 
 namespace GovITHub.Auth.Identity
@@ -123,12 +121,32 @@ namespace GovITHub.Auth.Identity
             app.UseIdentityServer();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+
+                AutomaticAuthenticate = false,
+                AutomaticChallenge = false
+            });
+
+            var googleOptions = new GoogleOptions
+            {
+                AuthenticationScheme = "Google",
+                DisplayName = "Google",
+                SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                ClientId = Configuration["GoogleClientId"],
+                ClientSecret = Configuration["GoogleClientSecret"]
+            };
+            app.UseGoogleAuthentication(googleOptions);
+
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(name: "signin-google", 
+                     template : "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
             });
         }
 
