@@ -89,6 +89,7 @@ namespace GovITHub.Auth.Identity
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            var logger = loggerFactory.CreateLogger<Startup>();
 
             try
             {
@@ -96,7 +97,6 @@ namespace GovITHub.Auth.Identity
             }
             catch (Exception ex)
             {
-                var logger = loggerFactory.CreateLogger<Startup>();
                 logger.LogCritical("Error initializing database. Reason : {0}", ex);
             }
 
@@ -129,16 +129,7 @@ namespace GovITHub.Auth.Identity
                 AutomaticChallenge = false
             });
 
-            var googleOptions = new GoogleOptions
-            {
-                AuthenticationScheme = "Google",
-                DisplayName = "Google",
-                SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
-                ClientId = Configuration["GoogleClientId"],
-                ClientSecret = Configuration["GoogleClientSecret"]
-            };
-            app.UseGoogleAuthentication(googleOptions);
-
+            InitGoogleAuthentication(app, logger);
 
             app.UseMvc(routes =>
             {
@@ -148,6 +139,28 @@ namespace GovITHub.Auth.Identity
                 routes.MapRoute(name: "signin-google", 
                      template : "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
             });
+        }
+
+        private void InitGoogleAuthentication(IApplicationBuilder app, ILogger logger)
+        {
+            string googleClientId = Configuration["GoogleClientId"];
+            string googleClientSecret = Configuration["GoogleClientSecret"];
+            if (!string.IsNullOrWhiteSpace(googleClientId) &&
+                !string.IsNullOrWhiteSpace(googleClientSecret)) {
+                var googleOptions = new GoogleOptions
+                {
+                    AuthenticationScheme = "Google",
+                    DisplayName = "Google",
+                    SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                    ClientId = googleClientId,
+                    ClientSecret = googleClientSecret
+                };
+                app.UseGoogleAuthentication(googleOptions);
+            }
+            else
+            {
+                logger.LogWarning("Google external authentication credentials not set.");
+            }
         }
 
         private void InitializeDatabase(IApplicationBuilder app)
