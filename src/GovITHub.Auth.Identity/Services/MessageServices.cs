@@ -28,10 +28,11 @@ namespace GovITHub.Auth.Identity.Services
                     From = originEmailAddress,
                     To = email,
                     Subject = subject,
-                    TextBody = message
+                    TextBody = message,
+                    HtmlBody = message
                 };
 
-                var client = new PostmarkClient("server_token");
+                var client = new PostmarkClient(postmarkServerToken);
                 return client.SendMessageAsync(emailMessage);
             }
             else
