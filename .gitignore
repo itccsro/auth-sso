@@ -253,3 +253,4 @@ paket-files/
 
 # Files with sensitive info
 /src/GovITHub.Auth.Identity/connectionstrings.json
+/src/GovITHub.Auth.Identity/appsettings.Development.json
