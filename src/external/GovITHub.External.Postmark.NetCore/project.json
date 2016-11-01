@@ -1,0 +1,22 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "GovITHub.External.Postmark.NetCore",
+  "authors": [ "" ],
+
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "version": "1.0.1",
+      "type": "platform"
+    },
+    "Newtonsoft.Json": "9.0.1"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ]
+    }
+  }
+}

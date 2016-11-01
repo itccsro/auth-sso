@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using PostmarkDotNet;
 using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Identity.Services
@@ -10,10 +10,35 @@ namespace GovITHub.Auth.Identity.Services
     // For more details see this link http://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
+        IConfigurationRoot configurationRootService;
+        ILogger logger;
+        public AuthMessageSender(ILogger logger, IConfigurationRoot configurationRootService)
+        {
+            this.logger = logger;
+            this.configurationRootService = configurationRootService;
+        }
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var postmarkServerToken = configurationRootService[Config.POSTMARK_SERVER_TOKEN];
+            var originEmailAddress = configurationRootService[Config.EMAIL_FROM_ADDRESS];
+            if (!string.IsNullOrWhiteSpace(postmarkServerToken))
+            {
+                var emailMessage = new PostmarkMessage()
+                {
+                    From = originEmailAddress,
+                    To = email,
+                    Subject = subject,
+                    TextBody = message
+                };
+
+                var client = new PostmarkClient("server_token");
+                return client.SendMessageAsync(emailMessage);
+            }
+            else
+            {
+                logger.LogWarning("Postmark server token is not configured, so we're not able to send emails.");
+                return Task.FromResult(0);
+            }
         }
 
         public Task SendSmsAsync(string number, string message)

@@ -143,8 +143,8 @@ namespace GovITHub.Auth.Identity
 
         private void InitGoogleAuthentication(IApplicationBuilder app, ILogger logger)
         {
-            string googleClientId = Configuration["GoogleClientId"];
-            string googleClientSecret = Configuration["GoogleClientSecret"];
+            string googleClientId = Configuration[Config.GOOGLE_CLIENT_ID];
+            string googleClientSecret = Configuration[Config.GOOGLE_CLIENT_SECRET];
             if (!string.IsNullOrWhiteSpace(googleClientId) &&
                 !string.IsNullOrWhiteSpace(googleClientSecret)) {
                 var googleOptions = new GoogleOptions
