@@ -1,5 +1,4 @@
 ﻿using GovITHub.Auth.Identity.Data;
-using GovITHub.Auth.Identity.Data.MySqlDAL;
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Services;
 using IdentityServer4;
@@ -61,7 +60,7 @@ namespace GovITHub.Auth.Identity
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddTransient<IConfigRepository, ConfigRepository>();
+            services.AddSingleton(Configuration);
 
             // Add service and create Policy with options
             services.AddCors(options =>

@@ -11,11 +11,11 @@ namespace GovITHub.Auth.Identity.Services
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
         IConfigurationRoot configurationRootService;
-        ILogger logger;
-        public AuthMessageSender(ILogger logger, IConfigurationRoot configurationRootService)
+        private readonly ILogger<AuthMessageSender> logger;
+        public AuthMessageSender(IConfigurationRoot configurationRootService, ILogger<AuthMessageSender> logger)
         {
-            this.logger = logger;
             this.configurationRootService = configurationRootService;
+            this.logger = logger;
         }
         public Task SendEmailAsync(string email, string subject, string message)
         {
