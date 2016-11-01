@@ -37,6 +37,9 @@
                         window.location = "/";
                     }
                 }
+                else {
+                    alert(data.msg);
+                }
             });
         }
     });

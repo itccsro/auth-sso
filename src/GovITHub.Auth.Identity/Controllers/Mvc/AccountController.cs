@@ -93,7 +93,7 @@ namespace GovITHub.Auth.Identity.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Request.IsAjaxRequest() ? Json(new { res = false }) : (IActionResult)View(model);
+                    return Request.IsAjaxRequest() ? Json(new { res = false, msg = "Utilizator sau parola invalida" }) : (IActionResult)View(model);
                 }
             }
             // If we got this far, something failed, redisplay form
@@ -169,6 +169,66 @@ namespace GovITHub.Auth.Identity.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        /// <summary>
+
+        /// Show logout page
+
+        /// </summary>
+
+        [HttpGet]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                // if the user is not authenticated, then just show logged out page
+                return await Logout(new LogoutViewModel { LogoutId = logoutId });
+            }
+
+            var context = await _interaction.GetLogoutContextAsync(logoutId);
+            if (context?.IsAuthenticatedLogout == true)
+            {
+                // if the logout request is authenticated, it's safe to automatically sign-out
+                return await Logout(new LogoutViewModel { LogoutId = logoutId });
+            }
+
+            var vm = new LogoutViewModel
+            {
+                LogoutId = logoutId
+            };
+            return View(vm);
+        }
+
+
+
+        /// <summary>
+        /// Handle logout page postback
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout(LogoutViewModel model)
+        {
+            var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+            if (idp != null && idp != "local")
+            {
+                string url = "/Account/Logout?logoutId=" + model.LogoutId;
+                await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
+            }
+            // delete authentication cookie
+            await HttpContext.Authentication.SignOutAsync();
+            // set this so UI rendering sees an anonymous user
+            HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+
+            // get context information (client name, post logout redirect URI and iframe for federated signout)
+            var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
+            var vm = new LoggedOutViewModel
+            {
+
+                PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
+                ClientName = logout?.ClientId,
+                SignOutIframeUrl = logout?.SignOutIFrameUrl
+            };
+            return View("LoggedOut", vm);
+        }
 
         //
         // POST: /Account/ExternalLogin
