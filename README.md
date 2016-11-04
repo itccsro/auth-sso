@@ -7,11 +7,10 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 - modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\appsettings.json to reflect database connection string
 
 ### Identity server
-- open shell (command promt)
+- open shell (command prompt)
 - go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
 - `npm install`
 - `dotnet ef database update`
-- `npm install`
 - `dotnet run`
 
 ### Javascript client sample
