@@ -242,11 +242,8 @@ namespace GovITHub.Auth.Identity.Controllers
             }
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
 
-            // start challenge and roundtrip the return URL
-            return new ChallengeResult(provider, new AuthenticationProperties
-            {
-                RedirectUri = redirectUrl
-            });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
         }
 
         /// <summary>
@@ -255,78 +252,13 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpGet]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            // read external identity from the temporary cookie
-            var tempUser = await HttpContext.Authentication.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
-            if (tempUser == null)
-            {
-                throw new Exception("External authentication error");
-            }
+            var info = await _signInManager.GetExternalLoginInfoAsync();
 
-            // retrieve claims of the external user
-            var claims = tempUser.Claims.ToList();
-
-            // try to determine the unique id of the external user - the most common claim type for that are the sub claim and the NameIdentifier
-            // depending on the external provider, some other claim type might be used
-            var userIdClaim = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Subject);
-            if (userIdClaim == null)
-            {
-                userIdClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
-            }
-            if (userIdClaim == null)
-            {
-                throw new Exception("Unknown userid");
-            }
-            var userEmailClaim = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email);
-            if (userEmailClaim == null)
-            {
-                userEmailClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
-            }
-            if (userEmailClaim == null)
-            {
-                throw new Exception("Unknown user email");
-            }
-            var userDisplayNameClaim = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Name);
-            if (userDisplayNameClaim == null)
-            {
-                userDisplayNameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-            }
-            if (userDisplayNameClaim == null)
-            {
-                throw new Exception("Unknown user name");
-            }
-
-
-            // remove the user id claim from the claims collection and move to the userId property
-            // also set the name of the external authentication provider
-            claims.Remove(userIdClaim);
-            claims.Remove(userEmailClaim);
-            var provider = userIdClaim.Issuer;
-            var userId = userIdClaim.Value;
-            var userEmail = userEmailClaim.Value;
-            var userName = userDisplayNameClaim.Value;
-            // check if the external user is already provisioned
-            var user = await _userManager.FindByLoginAsync(provider, userEmail);
-            if (user == null)
-            {
-                // this sample simply auto-provisions new external user
-                user = new ApplicationUser() {UserName = userEmail, Email = userEmail };
-                var identityResult = await _userManager.CreateAsync(user);
-                if (identityResult.Succeeded)
-                {
-                    identityResult = await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, userId, userName));
-                    if (!identityResult.Succeeded)
-                        return RedirectToAction(nameof(Login));
-                }
-            }
-
-            var result = await _signInManager.ExternalLoginSignInAsync(provider, userId, isPersistent: false);
-            // delete temporary cookie used during external authentication
-            await HttpContext.Authentication.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
 
             if (result.Succeeded)
             {
-                _logger.LogInformation(5, "User logged in with {Name} provider.", userId);
+                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
                 return RedirectToLocal(returnUrl);
             }
             if (result.RequiresTwoFactor)
@@ -337,14 +269,23 @@ namespace GovITHub.Auth.Identity.Controllers
             {
                 return View("Lockout");
             }
-            else
+            var registeredUser = await _userManager.FindByEmailAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
+            // If the user does not have an account, then ask the user to create an account.
+            if (registeredUser == null)
             {
-                // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
-                ViewData["LoginProvider"] = userId;
-                var email = userEmail;
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
+                ViewData["LoginProvider"] = info.LoginProvider;
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = info.Principal.FindFirstValue(ClaimTypes.Email) });
             }
+            // Otherwise, add the new login to the existing user.
+            var addLoginResult = await _userManager.AddLoginAsync(registeredUser, info);
+            if (addLoginResult.Succeeded)
+            {
+                await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+                return RedirectToLocal(returnUrl);
+            }
+            // At this point fallback to Login form.
+            return RedirectToAction(nameof(Login));
         }
 
         // GET: /Account/ConfirmEmail
@@ -586,6 +527,37 @@ namespace GovITHub.Auth.Identity.Controllers
             return Redirect("~/");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        {
+            if (ModelState.IsValid)
+            {
+                // Get the information about the user from the external login provider
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return View("ExternalLoginFailure");
+                }
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                AddErrors(result);
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(model);
+        }
         #endregion
     }
 }

@@ -49,7 +49,6 @@ namespace GovITHub.Auth.Identity
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySQL(mySqlConnectionString));
-                //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -74,8 +73,8 @@ namespace GovITHub.Auth.Identity
 
             // Adds IdentityServer
             services.AddDeveloperIdentityServer()
-                .AddConfigurationStore(builder => 
-                    builder.UseMySQL(mySqlConnectionString, 
+                .AddConfigurationStore(builder =>
+                    builder.UseMySQL(mySqlConnectionString,
                         options => options.MigrationsAssembly(migrationsAssembly)))
                 .AddOperationalStore(builder =>
                     builder.UseMySQL(mySqlConnectionString, options =>
@@ -130,13 +129,19 @@ namespace GovITHub.Auth.Identity
 
             InitGoogleAuthentication(app, logger);
 
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                AppId = Configuration["Authentication:Facebook:AppId"],
+                AppSecret = Configuration["Authentication:Facebook:AppSecret"]
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute(name: "signin-google", 
-                     template : "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
+                routes.MapRoute(name: "signin-google",
+                     template: "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
             });
         }
 
