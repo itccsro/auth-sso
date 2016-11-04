@@ -4,13 +4,21 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 ## Instalare
 - branch from master
 - create database sso
-- modify \\govithub-auth-sso\src\GovITHub.Auth.Identity\appsettings.json to reflect database connection string
+- create file `./src/GotITHub.Auth.Identity/connectionstrings.json` containing the connection string to the database like in example below:
+```
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "server=localhost;userid=<user id>;pwd=<password>;port=3306;database=sso;sslmode=none;"
+  }
+}
+```
 
 ### Identity server
-- open shell (command prompt)
+- open shell (command promt)
 - go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
 - `npm install`
 - `dotnet ef database update`
+- `npm install`
 - `dotnet run`
 
 ### Javascript client sample
@@ -52,6 +60,6 @@ Dacă vrei să contribui - ești binevenit(ă) - but we don't have cookies (yet)
 
 ## Cum poti intra in contact cu echipa?
 - Email: alexandru.chiraples@ithub.gov.ro
-- [Slack](https://govithub.slack.com/messages/gov-authenticator/details/) 
+- [Slack](https://govithub.slack.com/messages/gov-authenticator/details/). Pentru invite intrați pe http://govitslack.herokuapp.com/
 
 Mai multe detalii în curând! 

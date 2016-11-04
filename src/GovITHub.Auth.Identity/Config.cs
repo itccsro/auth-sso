@@ -11,7 +11,7 @@ namespace GovITHub.Auth.Identity
     public class Config
     {
         // scopes define the resources in your system
-        public static IEnumerable<Scope> GetScopes()
+        internal static IEnumerable<Scope> GetScopes()
         {
             return new List<Scope>
             {
@@ -29,7 +29,7 @@ namespace GovITHub.Auth.Identity
         }
 
         // clients want to access resources (aka scopes)
-        public static IEnumerable<Client> GetClients()
+        internal static IEnumerable<Client> GetClients()
         {
             // client credentials client
             return new List<Client>
