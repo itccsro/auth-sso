@@ -8,6 +8,11 @@ namespace GovITHub.Auth.Identity.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        /*[Required]
+        [MinLength(3)]
+        [Display(Name = "Nume")]
+        public string Name { get; set; }*/
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

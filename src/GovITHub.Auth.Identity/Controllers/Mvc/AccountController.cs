@@ -1,6 +1,7 @@
 ﻿using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Models.AccountViewModels;
 using GovITHub.Auth.Identity.Services;
+using GovITHub.Auth.Identity.Helpers;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Services;
@@ -74,26 +75,29 @@ namespace GovITHub.Auth.Identity.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    return Request.IsAjaxRequest() ? Json(new { res = true, returnUrl = returnUrl }) :  RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return Request.IsAjaxRequest() ?
+                        Json(new { res = true, returnUrl = Url.Action("SendAction", new { returnUrl = returnUrl, rememberMe = model.RememberMe }) }) :
+                        (IActionResult)RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning(2, "User account locked out.");
-                    return View("Lockout");
+                    return Request.IsAjaxRequest() ?
+                        Json(new { result = false, returnUrl = Url.Action("Lockout") }) :
+                        (IActionResult)View("Lockout");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    return Request.IsAjaxRequest() ? Json(new { res = false, msg = "Utilizator sau parola invalida" }) : (IActionResult)View(model);
                 }
             }
-
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Request.IsAjaxRequest() ? Json(new { res = false }) : (IActionResult)View(model);
         }
 
         //
@@ -122,19 +126,36 @@ namespace GovITHub.Auth.Identity.Controllers
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Name, model.Name));                    
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    try
+                    {
+                        await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                            $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.LogCritical("Email could not be sent! Reason : {0}", ex);
+                    }
+                        /*await _signInManager.SignInAsync(user, isPersistent: false);*/
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return Request.IsAjaxRequest() ?
+                        Json(new { res = true, returnUrl = returnUrl}) :
+                        RedirectToLocal(returnUrl);
                 }
-                AddErrors(result);
+                else
+                {
+                    AddErrors(result);
+                    var msg = result.Errors.Select(t => string.Format("{0} : {1}", t.Code, t.Description)).
+                        Aggregate((current, next) => current + " , " + next);
+                    return Request.IsAjaxRequest() ?
+                        Json(new { res = false, msg = msg }) : (IActionResult)View(model);
+                }
             }
-
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Request.IsAjaxRequest() ?
+                Json(new { res = false, msg = "Eroare - date invalide." }) : (IActionResult)View(model);
         }
 
         //
@@ -148,6 +169,66 @@ namespace GovITHub.Auth.Identity.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        /// <summary>
+
+        /// Show logout page
+
+        /// </summary>
+
+        [HttpGet]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            if (User.Identity.IsAuthenticated == false)
+            {
+                // if the user is not authenticated, then just show logged out page
+                return await Logout(new LogoutViewModel { LogoutId = logoutId });
+            }
+
+            var context = await _interaction.GetLogoutContextAsync(logoutId);
+            if (context?.IsAuthenticatedLogout == true)
+            {
+                // if the logout request is authenticated, it's safe to automatically sign-out
+                return await Logout(new LogoutViewModel { LogoutId = logoutId });
+            }
+
+            var vm = new LogoutViewModel
+            {
+                LogoutId = logoutId
+            };
+            return View(vm);
+        }
+
+
+
+        /// <summary>
+        /// Handle logout page postback
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout(LogoutViewModel model)
+        {
+            var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+            if (idp != null && idp != "local")
+            {
+                string url = "/Account/Logout?logoutId=" + model.LogoutId;
+                await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
+            }
+            // delete authentication cookie
+            await HttpContext.Authentication.SignOutAsync();
+            // set this so UI rendering sees an anonymous user
+            HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+
+            // get context information (client name, post logout redirect URI and iframe for federated signout)
+            var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
+            var vm = new LoggedOutViewModel
+            {
+
+                PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
+                ClientName = logout?.ClientId,
+                SignOutIframeUrl = logout?.SignOutIFrameUrl
+            };
+            return View("LoggedOut", vm);
+        }
 
         //
         // POST: /Account/ExternalLogin
@@ -174,6 +255,7 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpGet]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             // read external identity from the temporary cookie
             var tempUser = await HttpContext.Authentication.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
             if (tempUser == null)
@@ -490,14 +572,18 @@ namespace GovITHub.Auth.Identity.Controllers
 
         private IActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            if (!string.IsNullOrEmpty(returnUrl))
             {
-                return Redirect(returnUrl);
+                if (!_interaction.IsValidReturnUrl(returnUrl))
+                {
+                    returnUrl = Uri.UnescapeDataString(returnUrl);
+                }
+                if (_interaction.IsValidReturnUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
             }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
+            return Redirect("~/");
         }
 
         #endregion
