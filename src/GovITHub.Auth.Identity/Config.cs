@@ -10,6 +10,14 @@ namespace GovITHub.Auth.Identity
 {
     public class Config
     {
+        #region congiguration keys
+        public static readonly string POSTMARK_SERVER_TOKEN = "Postmark:ServerToken";
+        public static readonly string EMAIL_FROM_ADDRESS = "Postmark:OriginEmail";
+
+        public static readonly string GOOGLE_CLIENT_ID = "GoogleClientId";
+        public static readonly string GOOGLE_CLIENT_SECRET = "GoogleClientSecret";
+        #endregion
+
         // scopes define the resources in your system
         internal static IEnumerable<Scope> GetScopes()
         {
