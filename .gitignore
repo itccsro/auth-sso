@@ -254,3 +254,5 @@ paket-files/
 # Files with sensitive info
 /src/GovITHub.Auth.Identity/connectionstrings.json
 /src/GovITHub.Auth.Identity/appsettings.Development.json
+/src/GovITHub.Auth.Identity/Properties/PublishProfiles/publish-module.psm1
+/src/GovITHub.Auth.Identity/Properties/PublishProfiles/time4vps-publish.ps1

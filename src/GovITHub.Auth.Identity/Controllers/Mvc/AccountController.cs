@@ -1,9 +1,8 @@
-﻿using GovITHub.Auth.Identity.Models;
+﻿using GovITHub.Auth.Identity.Helpers;
+using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Models.AccountViewModels;
 using GovITHub.Auth.Identity.Services;
-using GovITHub.Auth.Identity.Helpers;
 using IdentityModel;
-using IdentityServer4;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
@@ -211,10 +210,19 @@ namespace GovITHub.Auth.Identity.Controllers
             if (idp != null && idp != "local")
             {
                 string url = "/Account/Logout?logoutId=" + model.LogoutId;
-                await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
+                try
+                {
+                    await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Cannot sign out! IDP : {0}. Reason : {1}", idp, ex);
+                }
             }
             // delete authentication cookie
+
             await HttpContext.Authentication.SignOutAsync();
+            // await HttpContext.Authentication.CustomHandleSignOutAsync(Request, Response, null);
             // set this so UI rendering sees an anonymous user
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
 
@@ -253,7 +261,8 @@ namespace GovITHub.Auth.Identity.Controllers
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl)
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
-
+            if (info == null)
+                return RedirectToAction("Login");
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
 
             if (result.Succeeded)
