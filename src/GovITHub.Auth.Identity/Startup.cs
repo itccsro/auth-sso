@@ -1,4 +1,6 @@
 ﻿using GovITHub.Auth.Identity.Data;
+using GovITHub.Auth.Identity.Infrastructure.Attributes;
+using GovITHub.Auth.Identity.Infrastructure.Configuration;
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Services;
 using IdentityServer4;
@@ -48,13 +50,17 @@ namespace GovITHub.Auth.Identity
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(mySqlConnectionString));
+                options.UseMySQL(mySqlConnectionString));           
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.ConfigureAudit();
+            services.AddMvc(options =>
+            {
+                options.ConfigureAudit();
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -150,7 +156,8 @@ namespace GovITHub.Auth.Identity
             string googleClientId = Configuration[Config.GOOGLE_CLIENT_ID];
             string googleClientSecret = Configuration[Config.GOOGLE_CLIENT_SECRET];
             if (!string.IsNullOrWhiteSpace(googleClientId) &&
-                !string.IsNullOrWhiteSpace(googleClientSecret)) {
+                !string.IsNullOrWhiteSpace(googleClientSecret))
+            {
                 var googleOptions = new GoogleOptions
                 {
                     AuthenticationScheme = "Google",
