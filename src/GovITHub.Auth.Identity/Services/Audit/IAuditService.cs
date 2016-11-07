@@ -8,6 +8,6 @@ namespace GovITHub.Auth.Identity.Services.Audit
 {
     public interface IAuditService
     {
-        Task LogActionExecutingAsync(AuditActionMessage message);
+        void LogActionExecuting(AuditActionMessage message);
     }
 }

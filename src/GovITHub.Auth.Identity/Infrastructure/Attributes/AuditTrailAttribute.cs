@@ -22,13 +22,13 @@ namespace GovITHub.Auth.Identity.Infrastructure.Attributes
             var message = new AuditActionMessage
             {
                 ActionUrl = context.HttpContext.Request.Path,
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 IpV4 = context.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString(),
                 IpV6 = context.HttpContext.Connection.RemoteIpAddress.MapToIPv6().ToString(),
                 Timestamp = DateTimeOffset.Now,
                 UserName = context.HttpContext.User.Identity.Name
             };
-            auditService.LogActionExecutingAsync(message);
+            auditService.LogActionExecuting(message);
             return base.OnActionExecutionAsync(context, next);
         }
     }
