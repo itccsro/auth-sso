@@ -7,6 +7,6 @@ On credentials edit form, set Authorized redirect URIs to [appURL]/signin-google
 ## Dev setup
 open shell
 
-dotnet user-secrets set GoogleClientId **valueOfGoogleClientId**
+dotnet user-secrets set Authentication:Google:GoogleClientId **valueOfGoogleClientId**
 
-dotnet user-secrets set GoogleClientSecret **valueOfGoogleClientSecret**
+dotnet user-secrets set Authentication:Google:GoogleClientSecret **valueOfGoogleClientSecret**

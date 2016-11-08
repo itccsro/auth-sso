@@ -4,20 +4,16 @@ using GovITHub.Auth.Identity.Infrastructure.Configuration;
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Services;
 using IdentityServer4;
-using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
 using System;
-using System.Linq;
 using System.Reflection;
-//using MySQL.Data.EntityFrameworkCore.Extensions;
 
 namespace GovITHub.Auth.Identity
 {
@@ -49,10 +45,12 @@ namespace GovITHub.Auth.Identity
             string mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(mySqlConnectionString));           
+            services.
+                AddEntityFramework().
+                AddDbContext<ApplicationDbContext>(options => options.UseMySQL(mySqlConnectionString));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -63,6 +61,8 @@ namespace GovITHub.Auth.Identity
             });
 
             // Add application services.
+            services.AddTransient<ConfigurationDataInitializer>();
+            services.AddTransient<ApplicationDataInitializer>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton(Configuration);
@@ -89,20 +89,13 @@ namespace GovITHub.Auth.Identity
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            ILoggerFactory loggerFactory, ConfigurationDataInitializer cfgDataInitializer,
+            ApplicationDataInitializer appDataInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             var logger = loggerFactory.CreateLogger<Startup>();
-
-            try
-            {
-                InitializeDatabase(app);
-            }
-            catch (Exception ex)
-            {
-                logger.LogCritical("Error initializing database. Reason : {0}", ex);
-            }
 
             app.UseCors("CorsPolicy");
 
@@ -134,12 +127,7 @@ namespace GovITHub.Auth.Identity
             });
 
             InitGoogleAuthentication(app, logger);
-
-            app.UseFacebookAuthentication(new FacebookOptions
-            {
-                AppId = Configuration["Authentication:Facebook:AppId"],
-                AppSecret = Configuration["Authentication:Facebook:AppSecret"]
-            });
+            InitFacebookAuthentication(app, logger);
 
             app.UseMvc(routes =>
             {
@@ -149,6 +137,32 @@ namespace GovITHub.Auth.Identity
                 routes.MapRoute(name: "signin-google",
                      template: "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
             });
+
+            try
+            {
+                appDataInitializer.InitializeData();
+                cfgDataInitializer.InitializeData();
+            }
+            catch (Exception ex)
+            {
+                logger.LogCritical("Error initializing database. Reason : {0}", ex);
+            }
+        }
+
+        private void InitFacebookAuthentication(IApplicationBuilder app, ILogger<Startup> logger)
+        {
+            string facebookAppId = Configuration[Config.FACEBOOK_APP_ID];
+            string facebookAppSecret = Configuration[Config.FACEBOOK_APP_SECRET];
+            if (!string.IsNullOrWhiteSpace(facebookAppId) &&
+                !string.IsNullOrWhiteSpace(facebookAppSecret))
+            {
+
+                app.UseFacebookAuthentication(new FacebookOptions
+                {
+                    AppId = facebookAppId,
+                    AppSecret = facebookAppSecret
+                });
+            }
         }
 
         private void InitGoogleAuthentication(IApplicationBuilder app, ILogger logger)
@@ -160,9 +174,6 @@ namespace GovITHub.Auth.Identity
             {
                 var googleOptions = new GoogleOptions
                 {
-                    AuthenticationScheme = "Google",
-                    DisplayName = "Google",
-                    SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
                     ClientId = googleClientId,
                     ClientSecret = googleClientSecret
                 };
@@ -171,34 +182,6 @@ namespace GovITHub.Auth.Identity
             else
             {
                 logger.LogWarning("Google external authentication credentials not set.");
-            }
-        }
-
-        private void InitializeDatabase(IApplicationBuilder app)
-        {
-            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-
-                var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                context.Database.Migrate();
-                if (context.Clients.FirstOrDefault() == null)
-                {
-                    foreach (var client in Config.GetClients())
-                    {
-                        context.Clients.Add(client.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
-
-                if (context.Scopes.FirstOrDefault() == null)
-                {
-                    foreach (var client in Config.GetScopes())
-                    {
-                        context.Scopes.Add(client.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
             }
         }
     }
