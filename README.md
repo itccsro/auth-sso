@@ -1,4 +1,4 @@
-# Citizen Single Sign On - GovIT Hub Authenticator 
+# Citizen Single Sign On - GovIT Hub Authenticator [![Build Status](https://travis-ci.org/gov-ithub/auth-sso.svg?branch=master)](https://travis-ci.org/gov-ithub/auth-sso) 
 Un singur set de credențiale pentru cetățean. La bază este un identity server ce expune un endpoint Outh2.
 
 ## Instalare
@@ -16,9 +16,8 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 ### Identity server
 - open shell (command promt)
 - go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
-- `npm install`
+- `dotnet restore`
 - `dotnet ef database update`
-- `npm install`
 - `dotnet run`
 
 ### Javascript client sample
