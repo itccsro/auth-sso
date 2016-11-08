@@ -1,4 +1,6 @@
 ﻿using GovITHub.Auth.Identity.Data;
+using GovITHub.Auth.Identity.Infrastructure.Attributes;
+using GovITHub.Auth.Identity.Infrastructure.Configuration;
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Services;
 using IdentityServer4;
@@ -52,7 +54,11 @@ namespace GovITHub.Auth.Identity
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.ConfigureAudit();
+            services.AddMvc(options =>
+            {
+                options.ConfigureAudit();
+            });
 
             // Add application services.
             services.AddTransient<ConfigurationDataInitializer>();
@@ -164,7 +170,8 @@ namespace GovITHub.Auth.Identity
             string googleClientId = Configuration[Config.GOOGLE_CLIENT_ID];
             string googleClientSecret = Configuration[Config.GOOGLE_CLIENT_SECRET];
             if (!string.IsNullOrWhiteSpace(googleClientId) &&
-                !string.IsNullOrWhiteSpace(googleClientSecret)) {
+                !string.IsNullOrWhiteSpace(googleClientSecret))
+            {
                 var googleOptions = new GoogleOptions
                 {
                     ClientId = googleClientId,
