@@ -125,22 +125,11 @@ namespace GovITHub.Auth.Identity.Controllers
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
-                    //await _userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Name, model.Name));                    
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    try
-                    {
-                        await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                            $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    }
-                    catch(Exception ex)
-                    {
-                        _logger.LogCritical("Email could not be sent! Reason : {0}", ex);
-                    }
-                        /*await _signInManager.SignInAsync(user, isPersistent: false);*/
+                    await SendEmailConfirmationMessage(model, user);
                     _logger.LogInformation(3, "User created a new account with password.");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     return Request.IsAjaxRequest() ?
-                        Json(new { res = true, returnUrl = returnUrl}) :
+                        Json(new { res = true, returnUrl = returnUrl }) :
                         RedirectToLocal(returnUrl);
                 }
                 else
@@ -156,6 +145,7 @@ namespace GovITHub.Auth.Identity.Controllers
             return Request.IsAjaxRequest() ?
                 Json(new { res = false, msg = "Eroare - date invalide." }) : (IActionResult)View(model);
         }
+
 
         //
         // POST: /Account/LogOff
@@ -518,6 +508,21 @@ namespace GovITHub.Auth.Identity.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        private async Task SendEmailConfirmationMessage(RegisterViewModel model, ApplicationUser user)
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            try
+            {
+                await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("Email could not be sent! Reason : {0}", ex);
+            }
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
