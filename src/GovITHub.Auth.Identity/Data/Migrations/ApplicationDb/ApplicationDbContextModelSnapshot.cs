@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using GovITHub.Auth.Identity.Data;
 
-namespace GovITHub.Auth.Identity.Data.Migrations
+namespace GovITHub.Auth.Identity.Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -62,6 +62,25 @@ namespace GovITHub.Auth.Identity.Data.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("GovITHub.Auth.Identity.Services.Audit.DataContracts.AuditActionMessage", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<string>("ActionUrl");
+
+                    b.Property<string>("IpV4");
+
+                    b.Property<string>("IpV6");
+
+                    b.Property<DateTimeOffset>("Timestamp");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditActions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

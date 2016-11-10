@@ -1,5 +1,5 @@
 {
-  "projects": [ "src", "test", "src/external" ],
+  "projects": [ "src", "test", "src/external", "../../../Users/alexc/Downloads/IdentityServer4.EntityFramework-release/src", "dependencies/IdentityServer4.EntityFramework/src" ],
   "sdk": {
     "version": "1.0.0-preview2-003131"
   }

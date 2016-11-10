@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GovITHub.Auth.Identity.Migrations
+namespace GovITHub.Auth.Identity.Data.Migrations.PersistedGrantDb
 {
-    public partial class InitialIdentityServerMigration : Migration
+    public partial class InitialIdentityServerPersistedGrantDbMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace GovITHub.Auth.Identity.Migrations
                     Type = table.Column<string>(nullable: false),
                     ClientId = table.Column<string>(maxLength: 200, nullable: false),
                     CreationTime = table.Column<DateTime>(nullable: false),
-                    Data = table.Column<string>(nullable: false),
+                    Data = table.Column<string>(maxLength: 8196, nullable: false),
                     Expiration = table.Column<DateTime>(nullable: false),
                     SubjectId = table.Column<string>(nullable: true)
                 },

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GovITHub.Auth.Identity.Migrations.ConfigurationDb
+namespace GovITHub.Auth.Identity.Data.Migrations.ConfigurationDb
 {
-    public partial class _1InitialIdentityServerMigration : Migration
+    public partial class InitialIdentityServerConfigurationDbMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,7 @@ namespace GovITHub.Auth.Identity.Migrations.ConfigurationDb
                     AccessTokenType = table.Column<int>(nullable: false),
                     AllowAccessToAllScopes = table.Column<bool>(nullable: false),
                     AllowAccessTokensViaBrowser = table.Column<bool>(nullable: false),
-                    AllowPromptNone = table.Column<bool>(nullable: false),
+                    AllowPlainTextPkce = table.Column<bool>(nullable: false),
                     AllowRememberConsent = table.Column<bool>(nullable: false),
                     AlwaysSendClientClaims = table.Column<bool>(nullable: false),
                     AuthorizationCodeLifetime = table.Column<int>(nullable: false),
@@ -34,7 +34,7 @@ namespace GovITHub.Auth.Identity.Migrations.ConfigurationDb
                     LogoutSessionRequired = table.Column<bool>(nullable: false),
                     LogoutUri = table.Column<string>(nullable: true),
                     PrefixClientClaims = table.Column<bool>(nullable: false),
-                    PublicClient = table.Column<bool>(nullable: false),
+                    ProtocolType = table.Column<string>(maxLength: 200, nullable: false),
                     RefreshTokenExpiration = table.Column<int>(nullable: false),
                     RefreshTokenUsage = table.Column<int>(nullable: false),
                     RequireClientSecret = table.Column<bool>(nullable: false),

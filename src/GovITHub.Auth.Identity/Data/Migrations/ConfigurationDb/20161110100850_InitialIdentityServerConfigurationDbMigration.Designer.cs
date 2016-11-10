@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using IdentityServer4.EntityFramework.DbContexts;
 
-namespace GovITHub.Auth.Identity.Migrations.ConfigurationDb
+namespace GovITHub.Auth.Identity.Data.Migrations.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20161025190323_1-InitialIdentityServerMigration")]
-    partial class _1InitialIdentityServerMigration
+    [Migration("20161110100850_InitialIdentityServerConfigurationDbMigration")]
+    partial class InitialIdentityServerConfigurationDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace GovITHub.Auth.Identity.Migrations.ConfigurationDb
 
                     b.Property<bool>("AllowAccessTokensViaBrowser");
 
-                    b.Property<bool>("AllowPromptNone");
+                    b.Property<bool>("AllowPlainTextPkce");
 
                     b.Property<bool>("AllowRememberConsent");
 
@@ -66,7 +66,9 @@ namespace GovITHub.Auth.Identity.Migrations.ConfigurationDb
 
                     b.Property<bool>("PrefixClientClaims");
 
-                    b.Property<bool>("PublicClient");
+                    b.Property<string>("ProtocolType")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 200);
 
                     b.Property<int>("RefreshTokenExpiration");
 

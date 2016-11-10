@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using IdentityServer4.EntityFramework.DbContexts;
 
-namespace GovITHub.Auth.Identity.Migrations
+namespace GovITHub.Auth.Identity.Data.Migrations.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
     partial class PersistedGrantDbContextModelSnapshot : ModelSnapshot
@@ -28,7 +28,8 @@ namespace GovITHub.Auth.Identity.Migrations
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<string>("Data")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 8196);
 
                     b.Property<DateTime>("Expiration");
 
