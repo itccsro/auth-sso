@@ -55,7 +55,7 @@
     "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
     "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
     "GovITHub.External.Postmark.NetCore": "1.0.0-*",
-    "IdentityServer4.EntityFramework": "1.0.0-rc3-*"
+    "IdentityServer4.EntityFramework": "1.0.0-rc3-gov"
   },
   "frameworks": {
     "netcoreapp1.0": {
