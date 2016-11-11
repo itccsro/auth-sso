@@ -78,7 +78,8 @@ namespace GovITHub.Auth.Identity
             });
 
             // Adds IdentityServer
-            services.AddDeveloperIdentityServer()
+            services.AddIdentityServer()
+                .AddTemporarySigningCredential() // TODO: change temporary signing credential
                 .AddConfigurationStore(builder =>
                     builder.UseMySQL(mySqlConnectionString,
                         options => options.MigrationsAssembly(migrationsAssembly)))

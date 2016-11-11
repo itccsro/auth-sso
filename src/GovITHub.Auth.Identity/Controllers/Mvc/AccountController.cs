@@ -174,7 +174,7 @@ namespace GovITHub.Auth.Identity.Controllers
             }
 
             var context = await _interaction.GetLogoutContextAsync(logoutId);
-            if (context?.IsAuthenticatedLogout == true)
+            if (context?.ShowSignoutPrompt == false)
             {
                 // if the logout request is authenticated, it's safe to automatically sign-out
                 return await Logout(new LogoutViewModel { LogoutId = logoutId });

@@ -4,3 +4,6 @@
 [submodule "dependencies/IdentityServer4"]
 	path = dependencies/IdentityServer4
 	url = https://github.com/IdentityServer/IdentityServer4.git
+[submodule "dependencies/IdentityServer4.EntityFramework"]
+	path = dependencies/IdentityServer4.EntityFramework
+	url = https://github.com/IdentityServer/IdentityServer4.EntityFramework.git
