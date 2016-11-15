@@ -10,15 +10,20 @@ namespace GovITHub.Auth.Identity
 {
     public class Config
     {
-        #region congiguration keys
-        public static readonly string POSTMARK_SERVER_TOKEN = "Postmark:ServerToken";
-        public static readonly string EMAIL_FROM_ADDRESS = "Postmark:OriginEmail";
+        #region configuration keys
+        public static readonly string POSTMARK_SERVER_TOKEN = "EmailSender:Postmark:ServerToken";
+        public static readonly string EMAIL_FROM_ADDRESS = "EmailSender:Postmark:OriginEmail";
 
         public static readonly string GOOGLE_CLIENT_ID = "Authentication:Google:GoogleClientId";
         public static readonly string GOOGLE_CLIENT_SECRET = "Authentication:Google:GoogleClientSecret";
         public static readonly string FACEBOOK_APP_ID = "Authentication:Facebook:AppId";
         public static readonly string FACEBOOK_APP_SECRET = "Authentication:Facebook:AppSecret";
 
+        public static readonly string SMTP_ADDRESS = "EmailSender:SMTP:Address";
+        public static readonly string SMTP_USERNAME = "EmailSender:SMTP:Username";
+        public static readonly string SMTP_PASSWORD = "EmailSender:SMTP:Password";
+        public static readonly string SMTP_PORT = "EmailSender:SMTP:Port";
+        public static readonly string SMTP_USESSL = "EmailSender:SMTP:UseSSL";
         #endregion
 
         // scopes define the resources in your system
