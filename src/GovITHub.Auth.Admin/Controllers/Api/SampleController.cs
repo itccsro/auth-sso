@@ -17,10 +17,15 @@ namespace GovITHub.Auth.Admin.Controllers.Api
             _context = ctx;
         }
 
+        //?currentPage=1&itemsPerPage=7&sortAscending=true&sortBy=name
         [HttpGet]
-        public IEnumerable<Sample> GetAll()
+        public IActionResult GetAll([FromQuery]int currentPage, [FromQuery]int itemsPerPage, 
+            [FromQuery]bool sortAscending, [FromQuery]string sortBy)
         {
-            return _context.GetAll();
+            var filter = new ModelQueryFilter(currentPage, itemsPerPage, sortAscending, sortBy);
+            
+           return new ObjectResult(_context.GetAll(filter));
+            
         }
 
         [HttpGet("{id}", Name = "GetSample")]

@@ -30,12 +30,36 @@
                     pageTitle: 'Samples'
                 }
             })
-            .state('index.samples.new', {
-                url: "/new",
-                controller: "SamplesNewController as vm",
-                templateUrl: "app/components/samples/new.html",
+            .state('index.samples_new', {
+                url: "/samples/new",
+                controller: "SamplesEditController as vm",
+                templateUrl: "app/components/samples/edit.html",
                 data: {
                     pageTitle: 'Samples'
+                },
+                resolve: {
+                    status: [function () {
+                        return { edit: false };
+                    }],
+                    id: [function () {
+                        return null;
+                    }]
+                }
+            })
+            .state('index.samples_edit', {
+                url: "/samples/:id",
+                controller: "SamplesEditController as vm",
+                templateUrl: "app/components/samples/edit.html",
+                data: {
+                    pageTitle: 'Samples'
+                },
+                resolve: {
+                    status: [function () {
+                        return { edit: true };
+                    }],
+                    id: ['$stateParams', function ($stateParams) {
+                        return $stateParams.id;
+                    }]
                 }
             })
           // -->Articles: pages
@@ -47,32 +71,32 @@
                   pageTitle: 'articles'
               }
           })
-          .state('index.articles_new/:articleId', {
-              url: "/articles_new/:articleId",
-              controller: "articlesNewController as vm",
-              templateUrl: "app/components/articles/new.html",
-              data: {
-                  pageTitle: 'articles'
-              },
-              resolve: {
-                  articleId: ['$stateParams', function ($stateParams) {
-                      return $stateParams.articleId;
-                  }]
-              }
-          })
-          .state('index.articles_dashboard/:articleId', {
-              url: "/articles_dashboard/:articleId",
-              controller: "articlesDashboardController as vm",
-              templateUrl: "app/components/articles/dashboard.html",
-              data: {
-                  pageTitle: 'Products'
-              },
-              resolve: {
-                  articleId: ['$stateParams', function ($stateParams) {
-                      return $stateParams.articleId;
-                  }]
-              }
-          })
+          //.state('index.articles_new/:articleId', {
+          //    url: "/articles_new/:articleId",
+          //    controller: "articlesNewController as vm",
+          //    templateUrl: "app/components/articles/new.html",
+          //    data: {
+          //        pageTitle: 'articles'
+          //    },
+          //    resolve: {
+          //        articleId: ['$stateParams', function ($stateParams) {
+          //            return $stateParams.articleId;
+          //        }]
+          //    }
+          //})
+          //.state('index.articles_dashboard/:articleId', {
+          //    url: "/articles_dashboard/:articleId",
+          //    controller: "articlesDashboardController as vm",
+          //    templateUrl: "app/components/articles/dashboard.html",
+          //    data: {
+          //        pageTitle: 'Products'
+          //    },
+          //    resolve: {
+          //        articleId: ['$stateParams', function ($stateParams) {
+          //            return $stateParams.articleId;
+          //        }]
+          //    }
+          //})
           // -->Voting station: pages
           .state('index.voting_stations', {
               url: "/voting_stations",
