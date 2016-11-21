@@ -1,4 +1,5 @@
 src/GovITHub.Auth.Identity/wwwroot/lib/* linguist-vendored
+src/GovITHub.Auth.Identity/wwwroot/lib/bootstrap/dist/js/bootstrap.js linguist-vendored
 src/GovITHub.Auth.Admin/wwwroot/libs/* linguist-vendored
 src/GovITHub.Auth.Admin/wwwroot/libs/vendor.min.js linguist-vendored
 src/GovITHub.Auth.Admin/wwwroot/libs/vendor.min.js.map linguist-vendored
