@@ -9,6 +9,7 @@
 
         // -->End
         $scope.$on('$destroy', function () {
+           
           vm.status = {};
           vmLocal = null;
         })
