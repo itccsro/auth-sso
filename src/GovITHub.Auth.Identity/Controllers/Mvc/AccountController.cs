@@ -2,6 +2,7 @@
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Models.AccountViewModels;
 using GovITHub.Auth.Identity.Services;
+using GovITHub.Auth.Identity.Services.DeviceDetection;
 using IdentityModel;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,7 @@ namespace GovITHub.Auth.Identity.Controllers
         private readonly IEnumerable<IEmailSender> _emailSenders;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IDeviceDetector _deviceDetector;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -34,7 +36,8 @@ namespace GovITHub.Auth.Identity.Controllers
             IIdentityServerInteractionService interaction,
             IEnumerable<IEmailSender> emailSenders,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IDeviceDetector deviceDetector)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,6 +45,7 @@ namespace GovITHub.Auth.Identity.Controllers
             _emailSenders = emailSenders;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _deviceDetector = deviceDetector;
         }
 
         //
@@ -56,6 +60,7 @@ namespace GovITHub.Auth.Identity.Controllers
                 Response.Cookies.Delete("Identity.External");
             }
             ViewData["ReturnUrl"] = returnUrl;
+            var deviceInfo = _deviceDetector.GetDeviceInfo(Request.Headers["User-Agent"].ToString());
             return View();
         }
 

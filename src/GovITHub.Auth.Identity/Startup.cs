@@ -57,6 +57,7 @@ namespace GovITHub.Auth.Identity
 
             services.ConfigureAudit();
             services.ConfigureLocalization(mySqlConnectionString, migrationsAssembly);
+            services.ConfigureDeviceDetection();
 
             services.AddMvc(options =>
             {
