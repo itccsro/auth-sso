@@ -28,9 +28,7 @@ Default options:
             },
             lang: "en"
         }
-    }])
-    .service('resourceManager', ['$q', '$resource', '$log', function ($q, $resource, $log) {
-
-    }])
+    }]);
+    
 })();
 
