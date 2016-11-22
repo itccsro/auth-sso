@@ -1,7 +1,7 @@
-﻿using GovITHub.Auth.Identity.Helpers;
-using GovITHub.Auth.Identity.Models;
-using GovITHub.Auth.Identity.Models.AccountViewModels;
-using GovITHub.Auth.Identity.Services;
+﻿using GovITHub.Auth.Common.Helpers;
+using GovITHub.Auth.Common.Models;
+using GovITHub.Auth.Common.Models.AccountViewModels;
+using GovITHub.Auth.Common.Services;
 using IdentityModel;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +17,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace GovITHub.Auth.Identity.Controllers
+namespace GovITHub.Auth.Common.Controllers
 {
     public class AccountController : Controller
     {

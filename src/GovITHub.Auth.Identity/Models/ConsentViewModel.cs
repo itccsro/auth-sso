@@ -6,7 +6,7 @@ using IdentityServer4.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GovITHub.Auth.Identity.Models
+namespace GovITHub.Auth.Common.Models
 {
     public class ConsentViewModel : ConsentInputModel
     {

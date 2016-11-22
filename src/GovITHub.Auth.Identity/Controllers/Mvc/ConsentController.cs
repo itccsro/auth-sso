@@ -9,10 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
-using GovITHub.Auth.Identity.Models;
+using GovITHub.Auth.Common.Models;
 //using IdentityServer4.Quickstart.UI.Models;
 
-namespace GovITHub.Auth.Identity.Controllers
+namespace GovITHub.Auth.Common.Controllers
 {
     /// <summary>
     /// This controller implements the consent logic

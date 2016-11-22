@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace GovITHub.Auth.Identity.API
+namespace GovITHub.Auth.Common.API
 {
     [Route("[controller]")]
     [Authorize]

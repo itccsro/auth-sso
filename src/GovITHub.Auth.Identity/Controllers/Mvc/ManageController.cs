@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using GovITHub.Auth.Identity.Models;
-using GovITHub.Auth.Identity.Models.ManageViewModels;
-using GovITHub.Auth.Identity.Services;
+using GovITHub.Auth.Common.Models;
+using GovITHub.Auth.Common.Models.ManageViewModels;
+using GovITHub.Auth.Common.Services;
 
-namespace GovITHub.Auth.Identity.Controllers
+namespace GovITHub.Auth.Common.Controllers
 {
     [Authorize]
     public class ManageController : Controller

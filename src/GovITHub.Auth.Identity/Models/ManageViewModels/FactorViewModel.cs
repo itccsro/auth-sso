@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GovITHub.Auth.Identity.Models.ManageViewModels
+namespace GovITHub.Auth.Common.Models.ManageViewModels
 {
     public class FactorViewModel
     {

@@ -1,4 +1,4 @@
-﻿using GovITHub.Auth.Identity.Infrastructure.Localization;
+﻿using GovITHub.Auth.Common.Infrastructure.Localization;
 using Localization.SqlLocalizer.DbStringLocalizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace GovITHub.Auth.Identity.Controllers.Api
+namespace GovITHub.Auth.Common.Controllers.Api
 {
     [Authorize]
     [Route("api/LocalizationImportExport")]

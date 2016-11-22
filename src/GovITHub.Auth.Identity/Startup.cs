@@ -1,8 +1,8 @@
-﻿using GovITHub.Auth.Identity.Data;
-using GovITHub.Auth.Identity.Infrastructure.Configuration;
-using GovITHub.Auth.Identity.Models;
-using GovITHub.Auth.Identity.Services;
-using GovITHub.Auth.Identity.Services.Impl;
+﻿using GovITHub.Auth.Common.Data;
+using GovITHub.Auth.Common.Infrastructure.Configuration;
+using GovITHub.Auth.Common.Models;
+using GovITHub.Auth.Common.Services;
+using GovITHub.Auth.Common.Services.Impl;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +16,7 @@ using MySQL.Data.Entity.Extensions;
 using System;
 using System.Reflection;
 
-namespace GovITHub.Auth.Identity
+namespace GovITHub.Auth.Common
 {
     public class Startup
     {
