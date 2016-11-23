@@ -3,7 +3,9 @@
     "emitEntryPoint": true,
     "preserveCompilationContext": true,
     "embed": [
-      "../external/device-detector/regexes/client/browsers.yml"
+      "../../dependencies/device-detector/regexes/client/browsers.yml",
+      "../../dependecies/device-detector/regexes/device/mobiles.yml",
+      "../../dependecies/device-detector/regexes/oss.yml"
     ]
   },
   "dependencies": {
