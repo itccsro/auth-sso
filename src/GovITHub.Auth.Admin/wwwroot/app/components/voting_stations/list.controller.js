@@ -40,7 +40,7 @@
                 vm.sort = function(sortBy) {
                     vm.sortBy = sortBy;
                     vm.sortAscending = !vm.sortAscending;
-                    vm.search()
+                    vm.search();
                 };
 
                 // -->INIT

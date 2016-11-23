@@ -58,7 +58,17 @@
       "wwwroot/app/index.run.js",
       "wwwroot/app/index.service.js",
       "wwwroot/app/directives.js",
-      "wwwroot/app/admin.js",
+      "wwwroot/app/admin.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/site.components.min.js",
+    "inputFiles": [
       "wwwroot/app/components/**/*.js"
     ],
     "minify": {

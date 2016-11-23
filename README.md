@@ -52,7 +52,7 @@ Dacă vrei să contribui - ești binevenit(ă) - but we don't have cookies (yet)
 
 ### Proces
 - Vezi lista de tehnologii folosite - îți sunt familiare?
-- Dacă nu ești încă înscris(ă) în comunitate, te rog fă-o pe [site-ul GovITHub](http://ithub.gov.ro/formular-de-aplicatie/)
+- Dacă nu ești încă înscris(ă) în comunitate, te rog fă-o pe [site-ul de voluntari GovITHub](http://voluntari.ithub.gov.ro/)
 - Aruncă o privire la [guidelines](https://github.com/gov-ithub/guidelines/blob/master/CODE_REVIEW.md) pentru code review 
 - Caută în issues un task interesant pentru tine (sau, dacă ai o propunere, deschide un issue / trimite un pull request). 
 - După ce trecem prin code review - celebrate! :star: :star2: :star:
