@@ -58,6 +58,7 @@ namespace GovITHub.Auth.Common.Data
                     HasConstraintName("FK_Org_OrgSettings");
                 b.HasOne(p => p.EmailSetting).
                     WithOne(c => c.OrganizationSetting).
+                    HasForeignKey<OrganizationSetting>(p => p.EmailSettingId).
                     HasConstraintName("FK_OrgSetting_EmailSetting");
             });
             builder.Entity<EmailTemplate>(b => 

@@ -4,7 +4,10 @@
     "preserveCompilationContext": true
   },
   "dependencies": {
-    "Microsoft.NETCore.App": "1.1.0",
+    "Microsoft.NETCore.App": {
+      "version": "1.1.0",
+      "type": "platform"
+    },
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Razor.Tools": "1.1.0-preview4-final",
@@ -67,13 +70,6 @@
       "appsettings.json",
       "web.config"
     ]
-  },
-  "runtimes": {
-    "win10-x64": {},
-    "win81-x64": {},
-    "win8-x64": {},
-    "win7-x64": {},
-    "ubuntu.14.04-x64": {}
   },
   "runtimeOptions": {
     "configProperties": {
