@@ -39,13 +39,13 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
             }
         }
 
-        protected void BuildInternal(DeviceInfo deviceInfo, string userAgent, Action<Match, TRegex> buildFunction)
+        protected void BuildInternal(DeviceInfo deviceInfo, string userAgent, Action<DeviceInfo, string> buildFunction)
         {
             Debug.Assert(deviceInfo != null);
             Debug.Assert(!String.IsNullOrEmpty(userAgent));
             Debug.Assert(buildFunction != null);
 
-            var match = Regexes.Select(r => new
+            var matchingItem = Regexes.Select(r => new
             {
                 Match = Regex.Match(userAgent, r.Regex),
                 Regex = r
@@ -53,8 +53,17 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
            .FirstOrDefault(tuple => tuple.Match.Success);
             if (true)
             {
-                buildFunction(match.Match, match.Regex);
+                var regex = matchingItem.Regex;
+                var match = matchingItem.Match;
+                var version = IsFixedVersion(regex) ? regex.Version : match.GetCapturingGroupValue(regex.Version);
+                var value = String.IsNullOrEmpty(version) ? regex.Name : $"{regex.Name} {version}";
+                buildFunction(deviceInfo, value);
             }
+        }
+
+        protected bool IsFixedVersion(TRegex regex)
+        {
+            return String.IsNullOrEmpty(regex.Version) || !regex.Version.StartsWith("$");
         }
     }
 }

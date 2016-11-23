@@ -18,17 +18,10 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 
         public void Build(DeviceInfo deviceInfo, string userAgent)
         {
-            BuildInternal(deviceInfo, userAgent, (match, regex) =>
+            BuildInternal(deviceInfo, userAgent, (info, value) =>
             {
-                var version = IsFixedVersion(regex) ? regex.Version : match.GetCapturingGroupValue(regex.Version);
-                deviceInfo.OperatingSystem = $"{regex.Name} {version}";
+                deviceInfo.OperatingSystem = value;
             });
-        }
-
-        private bool IsFixedVersion(OsRegex regex)
-        {
-            int versionNumber;
-            return Int32.TryParse(regex.Version, out versionNumber);
         }
     }
 }

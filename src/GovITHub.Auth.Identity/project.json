@@ -2,11 +2,13 @@
   "buildOptions": {
     "emitEntryPoint": true,
     "preserveCompilationContext": true,
-    "embed": [
-      "../../dependencies/device-detector/regexes/client/browsers.yml",
-      "../../dependecies/device-detector/regexes/device/mobiles.yml",
-      "../../dependecies/device-detector/regexes/oss.yml"
-    ]
+    "embed": {
+      "includeFiles": [
+        "../../dependencies/device-detector/regexes/client/browsers.yml",
+        "../../dependencies/device-detector/regexes/device/mobiles.yml",
+        "../../dependencies/device-detector/regexes/oss.yml"
+      ]
+    }
   },
   "dependencies": {
     "Microsoft.NETCore.App": {

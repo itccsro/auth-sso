@@ -17,11 +17,9 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 
         public void Build(DeviceInfo deviceInfo, string userAgent)
         {
-            BuildInternal(deviceInfo, userAgent, (match, regex) =>
+            BuildInternal(deviceInfo, userAgent, (info, value) =>
             {
-                var browserName = regex.Name;
-                var version = match.GetCapturingGroupValue(regex.Version);
-                deviceInfo.Client = $"{browserName} {version}";
+                deviceInfo.Client = value;
             });
 
         }
