@@ -1,7 +1,7 @@
 using GovITHub.Auth.Common.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GovITHub.Auth.Common.Controllers.Mvc
+namespace GovITHub.Auth.Identity.Controllers.Mvc
 {
     public class TestController : Controller
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 
-namespace GovITHub.Auth.Common.Helpers
+namespace GovITHub.Auth.Identity.Helpers
 {
     public static class ControllerHelpers
     {

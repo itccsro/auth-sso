@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
-namespace GovITHub.Auth.Common.Controllers
+namespace GovITHub.Auth.Identity.Controllers
 {
     public class HomeController : Controller
     {

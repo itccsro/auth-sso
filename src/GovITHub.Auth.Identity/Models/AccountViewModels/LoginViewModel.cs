@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GovITHub.Auth.Common.Models.AccountViewModels
+namespace GovITHub.Auth.Identity.Models.AccountViewModels
 {
     public class LoginViewModel
     {

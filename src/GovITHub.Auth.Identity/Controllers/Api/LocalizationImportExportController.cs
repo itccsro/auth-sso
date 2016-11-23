@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace GovITHub.Auth.Common.Controllers.Api
+namespace GovITHub.Auth.Identity.Controllers.Api
 {
     [Authorize]
     [Route("api/LocalizationImportExport")]

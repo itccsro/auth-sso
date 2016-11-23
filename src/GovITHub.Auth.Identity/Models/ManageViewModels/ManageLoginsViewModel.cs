@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace GovITHub.Auth.Common.Models.ManageViewModels
+namespace GovITHub.Auth.Identity.Models.ManageViewModels
 {
     public class ManageLoginsViewModel
     {

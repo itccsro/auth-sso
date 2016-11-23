@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace GovITHub.Auth.Common.Models
+namespace GovITHub.Auth.Identity.Models
 {
     public class ConsentInputModel
     {

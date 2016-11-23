@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace GovITHub.Auth.Common.Models.ManageViewModels
+namespace GovITHub.Auth.Identity.Models.ManageViewModels
 {
     public class IndexViewModel
     {
