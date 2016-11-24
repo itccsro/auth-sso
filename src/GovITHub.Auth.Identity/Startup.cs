@@ -3,6 +3,7 @@ using GovITHub.Auth.Common.Infrastructure.Configuration;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Common.Services;
 using GovITHub.Auth.Common.Services.Impl;
+using GovITHub.Auth.Common;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
