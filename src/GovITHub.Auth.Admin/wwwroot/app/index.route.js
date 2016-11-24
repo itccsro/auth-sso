@@ -62,6 +62,47 @@
                     }]
                 }
             })
+            .state('index.organizations', {
+                url: "/organizations",
+                controller: "OrganizationsListController as vm",
+                templateUrl: "app/components/organizations/list.html",
+                data: {
+                    pageTitle: 'Organizations'
+                }
+            })
+            .state('index.organizations_new', {
+                url: "/organizations/new",
+                controller: "OrganizationsEditController as vm",
+                templateUrl: "app/components/organizations/edit.html",
+                data: {
+                    pageTitle: 'Organizations'
+                },
+                resolve: {
+                    status: [function () {
+                        return { edit: false };
+                    }],
+                    id: [function () {
+                        return null;
+                    }]
+                }
+            })
+            .state('index.organizations_edit', {
+                url: "/organizations/:id",
+                controller: "OrganizationsEditController as vm",
+                templateUrl: "app/components/organizations/edit.html",
+                data: {
+                    pageTitle: 'Organizations'
+                },
+                resolve: {
+                    status: [function () {
+                        return { edit: true };
+                    }],
+                    id: ['$stateParams', function ($stateParams) {
+                        return $stateParams.id;
+                    }]
+                }
+            })
+			
           // -->Articles: pages
           .state('index.articles', {
               url: "/articles",
