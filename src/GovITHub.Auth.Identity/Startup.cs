@@ -16,7 +16,7 @@ using MySQL.Data.Entity.Extensions;
 using System;
 using System.Reflection;
 
-namespace GovITHub.Auth.Common
+namespace GovITHub.Auth.Identity
 {
     public class Startup
     {
