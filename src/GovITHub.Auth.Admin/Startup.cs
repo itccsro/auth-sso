@@ -35,6 +35,7 @@ namespace GovITHub.Auth.Admin
             services.AddMvc();
 
             services.AddSingleton<ISampleRepository, SampleRepository>();
+            services.AddTransient<IOrganizationRepository, OrganizationRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
