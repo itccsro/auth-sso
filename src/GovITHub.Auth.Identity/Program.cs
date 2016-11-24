@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
-namespace GovITHub.Auth.Common
+namespace GovITHub.Auth.Identity
 {
     public class Program
     {
