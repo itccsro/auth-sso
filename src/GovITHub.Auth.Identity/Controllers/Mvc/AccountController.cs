@@ -1,7 +1,7 @@
 ﻿using GovITHub.Auth.Identity.Helpers;
-using GovITHub.Auth.Identity.Models;
+using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Identity.Models.AccountViewModels;
-using GovITHub.Auth.Identity.Services;
+using GovITHub.Auth.Common.Services;
 using IdentityModel;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;

@@ -1,4 +1,4 @@
-using GovITHub.Auth.Identity.Data;
+using GovITHub.Auth.Common.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Identity.Controllers.Mvc

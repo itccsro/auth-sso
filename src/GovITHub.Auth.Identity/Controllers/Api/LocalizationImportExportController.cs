@@ -1,4 +1,4 @@
-﻿using GovITHub.Auth.Identity.Infrastructure.Localization;
+﻿using GovITHub.Auth.Common.Infrastructure.Localization;
 using Localization.SqlLocalizer.DbStringLocalizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
