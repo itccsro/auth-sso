@@ -1,5 +1,5 @@
 # Citizen Single Sign On - GovIT Hub Authenticator [![Build Status](https://travis-ci.org/gov-ithub/auth-sso.svg?branch=master)](https://travis-ci.org/gov-ithub/auth-sso) 
-Un singur set de credențiale pentru cetățean. La bază este un identity server ce expune un endpoint Outh2.
+Un singur set de credențiale pentru cetățean. La bază este un identity server ce expune un endpoint OAuth2.
 
 ## Instalare
 - branch from master
