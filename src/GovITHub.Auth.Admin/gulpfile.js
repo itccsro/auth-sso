@@ -16,7 +16,7 @@ const bFilter = $.filter('**/*.{js,css,eot,svg,ttf,woff,woff2,less}');
 
 
 gulp.task('cleanPrep', function () {
-    return gulp.src([dest + 'lib'], { read: false }).pipe($.clean());
+    return gulp.src([dest + 'libs'], { read: false }).pipe($.clean());
 });
 
 gulp.task('prep', ['cleanPrep'], function () {

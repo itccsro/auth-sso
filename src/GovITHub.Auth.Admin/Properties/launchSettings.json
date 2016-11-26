@@ -19,7 +19,7 @@
     "GovITHub.Auth.Admin": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5002/account",
+      "launchUrl": "http://localhost:5002/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

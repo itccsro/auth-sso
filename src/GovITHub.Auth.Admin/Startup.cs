@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Reflection;
 
 namespace GovITHub.Auth.Admin
@@ -34,7 +35,7 @@ namespace GovITHub.Auth.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;
+            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;      
 
             services.
                 AddEntityFramework().
@@ -85,13 +86,20 @@ namespace GovITHub.Auth.Admin
                 SaveTokens = true
             });
 
-            app.UseStaticFiles();
-            app.UseMvc(routes =>
+            app.Use(async (context, next) =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                await next();
+
+                if (context.Response.StatusCode == 404
+                    && !Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
             });
+
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
