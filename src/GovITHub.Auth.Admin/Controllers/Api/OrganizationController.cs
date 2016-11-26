@@ -1,5 +1,5 @@
-﻿using GovITHub.Auth.Admin.Models;
-using GovITHub.Auth.Admin.Services;
+﻿using GovITHub.Auth.Common.Data;
+using GovITHub.Auth.Common.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Admin.Controllers.Api

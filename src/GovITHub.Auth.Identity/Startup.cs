@@ -1,9 +1,9 @@
-﻿using GovITHub.Auth.Common.Data;
+﻿using GovITHub.Auth.Common;
+using GovITHub.Auth.Common.Data;
 using GovITHub.Auth.Common.Infrastructure.Configuration;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Common.Services;
 using GovITHub.Auth.Common.Services.Impl;
-using GovITHub.Auth.Common;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,7 +45,7 @@ namespace GovITHub.Auth.Identity
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;
             // Add framework services.
             services.
                 AddEntityFramework().

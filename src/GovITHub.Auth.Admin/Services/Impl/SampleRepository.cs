@@ -1,9 +1,8 @@
 ﻿using GovITHub.Auth.Admin.Models;
+using GovITHub.Auth.Common.Data;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Admin.Services.Impl
 {

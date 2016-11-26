@@ -1,8 +1,5 @@
 ﻿using GovITHub.Auth.Admin.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GovITHub.Auth.Common.Data;
 
 namespace GovITHub.Auth.Admin.Services
 {

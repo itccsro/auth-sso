@@ -70,7 +70,7 @@
                     pageTitle: 'Organizations'
                 }
             })
-            .state('index.organizations_new', {
+            .state('index.organization_new', {
                 url: "/organizations/new",
                 controller: "OrganizationsEditController as vm",
                 templateUrl: "app/components/organizations/edit.html",

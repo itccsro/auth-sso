@@ -21,7 +21,8 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.*",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.*",
     "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.0.*",
-    "IdentityModel": "2.0.0-rc3"
+    "IdentityModel": "2.0.1",
+    "GovITHub.Auth.Common": "1.0.0-*"
   },
 
   "tools": {

@@ -256,3 +256,4 @@ paket-files/
 /src/GovITHub.Auth.Identity/appsettings.Development.json
 /src/GovITHub.Auth.Identity/Properties/PublishProfiles/publish-module.psm1
 /src/GovITHub.Auth.Identity/Properties/PublishProfiles/time4vps-publish.ps1
+/src/GovITHub.Auth.Admin/connectionstrings.json
