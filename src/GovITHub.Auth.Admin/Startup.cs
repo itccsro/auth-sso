@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GovITHub.Auth.Admin.Services;
+using GovITHub.Auth.Admin.Services.Impl;
+using GovITHub.Auth.Common.Data;
+using GovITHub.Auth.Common.Data.Impl;
+using GovITHub.Auth.Common.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MySQL.Data.Entity.Extensions;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Http;
-using GovITHub.Auth.Admin.Services;
-using GovITHub.Auth.Admin.Services.Impl;
+using System.Reflection;
 
 namespace GovITHub.Auth.Admin
 {
@@ -22,6 +22,7 @@ namespace GovITHub.Auth.Admin
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("connectionstrings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -32,6 +33,13 @@ namespace GovITHub.Auth.Admin
 
         public void ConfigureServices(IServiceCollection services)
         {
+            string mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;
+
+            services.
+                AddEntityFramework().
+                AddDbContext<ApplicationDbContext>(options => options.UseMySQL(mySqlConnectionString));
+
             services.AddMvc();
 
             services.AddSingleton<ISampleRepository, SampleRepository>();

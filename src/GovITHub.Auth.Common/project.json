@@ -4,7 +4,7 @@
   "dependencies": {
     "GovITHub.External.Postmark.NetCore": "1.0.0-*",
     "IdentityServer4.EntityFramework": "1.0.0-rc3-gov",
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
     "IdentityModel": "2.0.1",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.1.0",

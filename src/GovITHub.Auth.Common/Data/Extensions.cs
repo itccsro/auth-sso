@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading.Tasks;
 
-namespace GovITHub.Auth.Admin.Models
+namespace GovITHub.Auth.Common.Data
 {
     public static class LinqExtensions
     {
@@ -54,6 +53,15 @@ namespace GovITHub.Auth.Admin.Models
             var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
             var genericMethod = method.MakeGenericMethod(typeof(T), propInfo.PropertyType);
             return (IQueryable<T>)genericMethod.Invoke(null, new object[] { query, expr });
+        }
+        public static IQueryable<T> OrderByDescending<T>(this IQueryable<T> query, string name)
+        {
+            var propInfo = GetPropertyInfo(typeof(T), name);
+            var expr = GetOrderExpression(typeof(T), propInfo);
+
+            var method = typeof(Enumerable).GetMethods().FirstOrDefault(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2);
+            var genericMethod = method.MakeGenericMethod(typeof(T), propInfo.PropertyType);
+            return (IQueryable<T>)genericMethod.Invoke(null, new object[] { query, expr.Compile() });
         }
     }
 
