@@ -2,17 +2,14 @@
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
 using System.Linq;
 using System.Text.RegularExpressions;
+using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class ClientInfoBuilder : DeviceInfoBuilderBase<BrowserRegex>, IDeviceInfoBuilder
     {
-        protected override string ResourceName
+        public ClientInfoBuilder(IDeviceInfoRegexLoader<BrowserRegex> regexLoader) : base(regexLoader)
         {
-            get
-            {
-                return "GovITHub.Auth.Identity.browsers.yml";
-            }
         }
 
         public void Build(DeviceInfo deviceInfo, string userAgent)

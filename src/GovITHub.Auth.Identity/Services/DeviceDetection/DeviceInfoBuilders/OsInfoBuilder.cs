@@ -3,17 +3,14 @@ using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSch
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class OsInfoBuilder : DeviceInfoBuilderBase<OsRegex>, IDeviceInfoBuilder
     {
-        protected override string ResourceName
+        public OsInfoBuilder(IDeviceInfoRegexLoader<OsRegex> regexLoader) : base(regexLoader)
         {
-            get
-            {
-                return "GovITHub.Auth.Identity.oss.yml";
-            }
         }
 
         public void Build(DeviceInfo deviceInfo, string userAgent)

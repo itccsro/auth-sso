@@ -1,5 +1,7 @@
 ﻿using GovITHub.Auth.Identity.Services.DeviceDetection.DataContracts;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders;
+using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
+using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilde
 
         public ClientInfoBuilderTests()
         {
-            _builder = new ClientInfoBuilder();
+            _builder = new ClientInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Identity.browsers.yml"));
         }
 
         [Theory]

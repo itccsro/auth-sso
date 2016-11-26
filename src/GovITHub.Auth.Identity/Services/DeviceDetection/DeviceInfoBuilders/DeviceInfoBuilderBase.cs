@@ -15,35 +15,18 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 {
     public abstract class DeviceInfoBuilderBase<TRegex> where TRegex : IRegex
     {
-        public DeviceInfoBuilderBase()
+        public DeviceInfoBuilderBase(Regexes.IDeviceInfoRegexLoader<TRegex> regexLoader)
         {
-            Regexes = LoadResourceStream<TRegex>(ResourceName);
+            Regexes = regexLoader.LoadRegularExpressions();
         }
 
         public IEnumerable<TRegex> Regexes { get; private set; }
 
-        protected abstract string ResourceName { get; }
-
-        protected IEnumerable<T> LoadResourceStream<T>(string resourceName)
-        {
-            var serializer = new DeserializerBuilder()
-                .WithNamingConvention(namingConvention: new CamelCaseNamingConvention())
-                .IgnoreUnmatchedProperties()
-                .Build();
-            var assembly = typeof(DeviceInfoBuilderBase<>).GetTypeInfo().Assembly;
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
-            {
-                var collection = serializer.Deserialize<List<T>>(reader);
-                return collection;
-            }
-        }
-
-        protected void BuildInternal(DeviceInfo deviceInfo, string userAgent, Action<DeviceInfo, string> buildFunction)
+        protected void BuildInternal(DeviceInfo deviceInfo, string userAgent, Action<DeviceInfo, string> propertySetter)
         {
             Debug.Assert(deviceInfo != null);
             Debug.Assert(!String.IsNullOrEmpty(userAgent));
-            Debug.Assert(buildFunction != null);
+            Debug.Assert(propertySetter != null);
 
             var matchingItem = Regexes.Select(r => new
             {
@@ -51,14 +34,20 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
                 Regex = r
             })
            .FirstOrDefault(tuple => tuple.Match.Success);
-            if (true)
+            if (matchingItem != null)
             {
                 var regex = matchingItem.Regex;
                 var match = matchingItem.Match;
-                var version = IsFixedVersion(regex) ? regex.Version : match.GetCapturingGroupValue(regex.Version);
-                var value = String.IsNullOrEmpty(version) ? regex.Name : $"{regex.Name} {version}";
-                buildFunction(deviceInfo, value);
+                string value = BuildDeviceInfo(regex, match, userAgent);
+                propertySetter(deviceInfo, value);
             }
+        }
+
+        protected virtual string BuildDeviceInfo(TRegex regex, Match match, string userAgent)
+        {
+            var version = IsFixedVersion(regex) ? regex.Version : match.GetCapturingGroupValue(regex.Version);
+            var value = String.IsNullOrEmpty(version) ? regex.Name : $"{regex.Name} {version}";
+            return value;
         }
 
         protected bool IsFixedVersion(TRegex regex)
