@@ -6,103 +6,104 @@
       .config(routerConfig);
 
     /** @ngInject */
-    function routerConfig($stateProvider, $urlRouterProvider, $resourceProvider) {
+    function routerConfig($stateProvider, $urlRouterProvider, $resourceProvider, $locationProvider) {
         $resourceProvider.defaults.stripTrailingSlashes = false;
+        $urlRouterProvider.otherwise("/unauthorized");
 
         $stateProvider
-          .state('index', {
-              abstract: true,
-              url: "/index",
-              templateUrl: "app/components/common/content.html"
-          })
-          .state('index.main', {
-              url: "/main",
-              templateUrl: "app/components/main/main.html",
-              data: {
-                  pageTitle: 'Dashboard'
-              }
-          })
-            .state('index.samples', {
-                url: "/samples",
-                controller: "SamplesListController as vm",
-                templateUrl: "app/components/samples/list.html",
-                data: {
-                    pageTitle: 'Samples'
-                }
-            })
-            .state('index.samples_new', {
-                url: "/samples/new",
-                controller: "SamplesEditController as vm",
-                templateUrl: "app/components/samples/edit.html",
-                data: {
-                    pageTitle: 'Samples'
-                },
-                resolve: {
-                    status: [function () {
-                        return { edit: false };
-                    }],
-                    id: [function () {
-                        return null;
-                    }]
-                }
-            })
-            .state('index.samples_edit', {
-                url: "/samples/:id",
-                controller: "SamplesEditController as vm",
-                templateUrl: "app/components/samples/edit.html",
-                data: {
-                    pageTitle: 'Samples'
-                },
-                resolve: {
-                    status: [function () {
-                        return { edit: true };
-                    }],
-                    id: ['$stateParams', function ($stateParams) {
-                        return $stateParams.id;
-                    }]
-                }
-            })
-            .state('index.organizations', {
-                url: "/organizations",
-                controller: "OrganizationsListController as vm",
-                templateUrl: "app/components/organizations/list.html",
-                data: {
-                    pageTitle: 'Organizations'
-                }
-            })
-            .state('index.organization_new', {
-                url: "/organizations/new",
-                controller: "OrganizationsEditController as vm",
-                templateUrl: "app/components/organizations/edit.html",
-                data: {
-                    pageTitle: 'Organizations'
-                },
-                resolve: {
-                    status: [function () {
-                        return { edit: false };
-                    }],
-                    id: [function () {
-                        return null;
-                    }]
-                }
-            })
-            .state('index.organizations_edit', {
-                url: "/organizations/:id",
-                controller: "OrganizationsEditController as vm",
-                templateUrl: "app/components/organizations/edit.html",
-                data: {
-                    pageTitle: 'Organizations'
-                },
-                resolve: {
-                    status: [function () {
-                        return { edit: true };
-                    }],
-                    id: ['$stateParams', function ($stateParams) {
-                        return $stateParams.id;
-                    }]
-                }
-            })
-			
+        .state("authorized", { url: "/authorized", templateUrl: "/app/components/main/authorize.html", controller: "AuthorizeController" })
+        .state("forbidden", { url: "/forbidden", templateUrl: "/templates/forbidden.html" })
+        .state("unauthorized", { url: "/unauthorized", templateUrl: "/app/components/main/unauthorized.html" })
+        .state("logoff", { url: "/logoff", templateUrl: "/app/components/main/logoff.html" , controller:"LogoffController"})
+        .state('index', { abstract: true, url: "/index", templateUrl: "app/components/common/content.html" })
+        .state('index.main', {
+            url: "/main",
+            templateUrl: "app/components/main/main.html",
+            data: {
+                pageTitle: 'Dashboard'
+            }
+        })
+        .state('index.samples', {
+            url: "/samples",
+            controller: "SamplesListController as vm",
+            templateUrl: "app/components/samples/list.html",
+            data: {
+                pageTitle: 'Samples'
+            }
+        })
+        .state('index.samples_new', {
+            url: "/samples/new",
+            controller: "SamplesEditController as vm",
+            templateUrl: "app/components/samples/edit.html",
+            data: {
+                pageTitle: 'Samples'
+            },
+            resolve: {
+                status: [function () {
+                    return { edit: false };
+                }],
+                id: [function () {
+                    return null;
+                }]
+            }
+        })
+        .state('index.samples_edit', {
+            url: "/samples/:id",
+            controller: "SamplesEditController as vm",
+            templateUrl: "app/components/samples/edit.html",
+            data: {
+                pageTitle: 'Samples'
+            },
+            resolve: {
+                status: [function () {
+                    return { edit: true };
+                }],
+                id: ['$stateParams', function ($stateParams) {
+                    return $stateParams.id;
+                }]
+            }
+        })
+        .state('index.organizations', {
+            url: "/organizations",
+            controller: "OrganizationsListController as vm",
+            templateUrl: "app/components/organizations/list.html",
+            data: {
+                pageTitle: 'Organizations'
+            }
+        })
+        .state('index.organization_new', {
+            url: "/organizations/new",
+            controller: "OrganizationsEditController as vm",
+            templateUrl: "app/components/organizations/edit.html",
+            data: {
+                pageTitle: 'Organizations'
+            },
+            resolve: {
+                status: [function () {
+                    return { edit: false };
+                }],
+                id: [function () {
+                    return null;
+                }]
+            }
+        })
+        .state('index.organizations_edit', {
+            url: "/organizations/:id",
+            controller: "OrganizationsEditController as vm",
+            templateUrl: "app/components/organizations/edit.html",
+            data: {
+                pageTitle: 'Organizations'
+            },
+            resolve: {
+                status: [function () {
+                    return { edit: true };
+                }],
+                id: ['$stateParams', function ($stateParams) {
+                    return $stateParams.id;
+                }]
+            }
+        })
+
           // -->Articles: pages
           .state('index.articles', {
               url: "/articles",
@@ -212,7 +213,6 @@
               }
           });
 
-        $urlRouterProvider.otherwise('/index/main');
+        $locationProvider.html5Mode(true);
     }
-
 })();
