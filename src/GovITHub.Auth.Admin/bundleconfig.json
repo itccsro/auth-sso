@@ -36,6 +36,7 @@
         "wwwroot/libs/angular-bootstrap/**/*.js",
         "wwwroot/libs/angular-cookies/**/*.js",
         "wwwroot/libs/angular-messages/**/*.js",
+        "wwwroot/libs/angular-local-storage/dist/*.js",
         "wwwroot/libs/angular-mocks/**/*.js",
         "wwwroot/libs/angular-resource/**/*.js",
         "wwwroot/libs/angular-sanitize/**/*.js",
@@ -53,12 +54,14 @@
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
-      "wwwroot/app/index.module.js",
-      "wwwroot/app/index.route.js",
-      "wwwroot/app/index.run.js",
-      "wwwroot/app/index.service.js",
-      "wwwroot/app/directives.js",
-      "wwwroot/app/admin.js"
+        "wwwroot/app/index.module.js",
+        "wwwroot/app/index.route.js",
+        "wwwroot/app/index.run.js",
+        "wwwroot/app/index.service.js",
+        "wwwroot/app/services/AuthorizationInterceptor.js",
+        "wwwroot/app/services/SecurityService.js",
+        "wwwroot/app/directives.js",
+        "wwwroot/app/admin.js"
     ],
     "minify": {
       "enabled": false,
@@ -69,7 +72,7 @@
   {
     "outputFileName": "wwwroot/js/site.components.min.js",
     "inputFiles": [
-      "wwwroot/app/components/**/*.js"
+        "wwwroot/app/components/**/*.js"
     ],
     "minify": {
       "enabled": false,

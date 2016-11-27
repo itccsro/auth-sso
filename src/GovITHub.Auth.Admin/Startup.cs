@@ -10,8 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace GovITHub.Auth.Admin
@@ -63,41 +65,41 @@ namespace GovITHub.Auth.Admin
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            /*app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "Cookies"
-            });
-
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            });*/
+            var jwtOptions = new JwtBearerOptions()
             {
-                AuthenticationScheme = "oidc",
-                SignInScheme = "Cookies",
+                Authority = "http://localhost:5000/",
+                Audience = "http://localhost:5000/resources",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,                
+                RequireHttpsMetadata = false
+            };
+            app.UseJwtBearerAuthentication(jwtOptions);
 
-                Authority = "http://localhost:5000",
-                RequireHttpsMetadata = false,
 
-                ClientId = "mvc",
-                ClientSecret = "secret",
-
-                ResponseType = "code id_token",
-                Scope = { "api1", "offline_access" },
-
-                GetClaimsFromUserInfoEndpoint = true,
-                SaveTokens = true
-            });
+        var angularRoutes = new[] {
+                "/forbidden",
+                "/authorized",
+                "/authorize",
+                "/unauthorized",
+                "/index",
+                "/logoff"
+            };
 
             app.Use(async (context, next) =>
             {
-                await next();
-
-                if (context.Response.StatusCode == 404
-                    && !Path.HasExtension(context.Request.Path.Value))
+                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
                 {
-                    context.Request.Path = "/index.html";
-                    await next();
+                    context.Request.Path = "/";
                 }
+                await next();
             });
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }

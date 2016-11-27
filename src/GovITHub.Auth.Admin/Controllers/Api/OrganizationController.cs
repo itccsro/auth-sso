@@ -1,9 +1,11 @@
 ﻿using GovITHub.Auth.Common.Data;
 using GovITHub.Auth.Common.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Admin.Controllers.Api
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class OrganizationController : Controller
     {
