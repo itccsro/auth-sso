@@ -1,14 +1,12 @@
 ﻿using GovITHub.Auth.Identity.Services.DeviceDetection.DataContracts;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
-using System.Linq;
-using System.Text.RegularExpressions;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public class ClientInfoBuilder : DeviceInfoBuilderBase<BrowserRegex>, IDeviceInfoBuilder
+    public class BrowserInfoBuilder : DeviceInfoBuilderBase<BrowserRegex>, IDeviceInfoBuilder
     {
-        public ClientInfoBuilder(IDeviceInfoRegexLoader<BrowserRegex> regexLoader) : base(regexLoader)
+        public BrowserInfoBuilder(IDeviceInfoRegexLoader<BrowserRegex> regexLoader) : base(regexLoader)
         {
         }
 

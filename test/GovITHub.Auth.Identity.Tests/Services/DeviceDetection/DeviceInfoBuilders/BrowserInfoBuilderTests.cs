@@ -2,21 +2,17 @@
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public class ClientInfoBuilderTests
+    public class BrowserInfoBuilderTests
     {
-        private readonly ClientInfoBuilder _builder;
+        private readonly BrowserInfoBuilder _builder;
 
-        public ClientInfoBuilderTests()
+        public BrowserInfoBuilderTests()
         {
-            _builder = new ClientInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Identity.browsers.yml"));
+            _builder = new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Identity.browsers.yml"));
         }
 
         [Theory]
