@@ -2,7 +2,7 @@
 
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema
 {
-    [DebuggerDisplay("Name")]
+    [DebuggerDisplay("{Name}")]
     public class OsRegex : IRegex
     {
         public string Regex { get; set; }

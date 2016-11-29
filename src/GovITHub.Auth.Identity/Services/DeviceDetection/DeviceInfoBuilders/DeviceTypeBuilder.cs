@@ -31,6 +31,10 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 
         protected override string BuildDeviceInfo(DeviceRegex regex, Match match, string userAgent)
         {
+            if (!String.IsNullOrEmpty(regex.Model))
+            {
+                return regex.Model;
+            }
             var model = regex.Models.Select(m => new
             {
                 Match = Regex.Match(userAgent, m.Regex),
@@ -39,10 +43,10 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
             .FirstOrDefault(m => m.Match.Success);
             if (model == null)
             {
-                return match.Value;
+                return regex.Name;
             }
             var deviceModelName = GetDeviceModelName(model.Model, model.Match);
-            return $"{match.Value} {deviceModelName}";
+            return $"{regex.Name} {deviceModelName}";
         }
 
         private static string GetDeviceModelName(DeviceModel deviceModel, Match deviceModelMatch)

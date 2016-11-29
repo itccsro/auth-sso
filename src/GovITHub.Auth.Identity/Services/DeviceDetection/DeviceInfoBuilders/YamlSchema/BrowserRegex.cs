@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema
 {
-    [DebuggerDisplay("Name")]
+    [DebuggerDisplay("{Name}")]
     public class BrowserRegex : IRegex
     {
         public string Regex { get; set; }
