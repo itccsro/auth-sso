@@ -5,13 +5,13 @@ using Xunit;
 
 namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public class DeviceTypeBuilderTests
+    public class MobileDeviceInfoBuilderTests
     {
-        private readonly DeviceTypeBuilder _builder;
+        private readonly MobileDeviceInfoBuilder _builder;
 
-        public DeviceTypeBuilderTests()
+        public MobileDeviceInfoBuilderTests()
         {
-            _builder = new DeviceTypeBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Identity.mobiles.yml"));
+            _builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Identity.mobiles.yml"));
         }
 
         [Theory]

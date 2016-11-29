@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema
 {
     [DebuggerDisplay("{Name}")]
-    public class DeviceRegex : IRegex
+    public class MobileDeviceRegex : IRegex
     {
         public string Regex { get; set; }
 

@@ -10,7 +10,7 @@ using System.IO;
 
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes
 {
-    public class MobileDevicesResourceFileRegexLoader : IDeviceInfoRegexLoader<DeviceRegex>
+    public class MobileDevicesResourceFileRegexLoader : IDeviceInfoRegexLoader<MobileDeviceRegex>
     {
         private readonly string _resourceName;
 
@@ -19,7 +19,7 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Reg
             _resourceName = resourceName;
         }
 
-        public IEnumerable<DeviceRegex> LoadRegularExpressions()
+        public IEnumerable<MobileDeviceRegex> LoadRegularExpressions()
         {
             var serializer = new DeserializerBuilder()
                 .WithNamingConvention(namingConvention: new CamelCaseNamingConvention())
@@ -30,19 +30,19 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Reg
             using (var input = new StreamReader(stream))
             {
                 dynamic collection = serializer.Deserialize(input);
-                IEnumerable<DeviceRegex> deviceRegexes = ConvertToDeviceRegex(collection);
+                IEnumerable<MobileDeviceRegex> deviceRegexes = ConvertToDeviceRegex(collection);
                 /// HACK: The regex for MicroMax is not well formed and .net framework throws an error
                 /// As a workaround, exclude the MicroMax regex from the result until the regex is replaced.
                 return deviceRegexes.Where(r => r.Name != "MicroMax");
             }
         }
 
-        private IEnumerable<DeviceRegex> ConvertToDeviceRegex(dynamic collection)
+        private IEnumerable<MobileDeviceRegex> ConvertToDeviceRegex(dynamic collection)
         {
             foreach (dynamic item in collection)
             {
                 var value = item.Value;
-                var regex = new DeviceRegex();
+                var regex = new MobileDeviceRegex();
                 regex.Name = item.Key;
                 regex.DeviceType = value.ContainsKey("device") ? value["device"] : String.Empty;
                 regex.Regex = value["regex"];

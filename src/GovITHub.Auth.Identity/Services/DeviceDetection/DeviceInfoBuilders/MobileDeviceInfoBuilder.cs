@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DataContracts;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
-using System.Reflection;
-using System.IO;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
-using YamlDotNet.Core;
-using YamlDotNet.Core.Events;
 using System.Text.RegularExpressions;
 using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 
 namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public class DeviceTypeBuilder : DeviceInfoBuilderBase<DeviceRegex>, IDeviceInfoBuilder
+    public class MobileDeviceInfoBuilder : DeviceInfoBuilderBase<MobileDeviceRegex>, IDeviceInfoBuilder
     {
-        public DeviceTypeBuilder(IDeviceInfoRegexLoader<DeviceRegex> regexLoader) : base(regexLoader)
+        public MobileDeviceInfoBuilder(IDeviceInfoRegexLoader<MobileDeviceRegex> regexLoader) : base(regexLoader)
         {
         }
 
@@ -29,7 +21,7 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
             });
         }
 
-        protected override string BuildDeviceInfo(DeviceRegex regex, Match match, string userAgent)
+        protected override string BuildDeviceInfo(MobileDeviceRegex regex, Match match, string userAgent)
         {
             if (!String.IsNullOrEmpty(regex.Model))
             {
