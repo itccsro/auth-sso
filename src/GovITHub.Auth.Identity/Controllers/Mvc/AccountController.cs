@@ -1,7 +1,9 @@
 ﻿using GovITHub.Auth.Identity.Helpers;
 using GovITHub.Auth.Identity.Infrastructure.Extensions;
 using GovITHub.Auth.Identity.Models;
+using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Identity.Models.AccountViewModels;
+using GovITHub.Auth.Common.Services;
 using GovITHub.Auth.Identity.Services;
 using GovITHub.Auth.Identity.Services.DeviceDetection;
 using IdentityModel;
