@@ -12,9 +12,9 @@ namespace GovITHub.Auth.Common.Infrastructure.Configuration
         {
             return services.AddTransient<IDeviceDetector, DeviceDetector>()
                 .AddTransient<ILoginDeviceManagementService, LoginDeviceManagementService>()
-                .AddTransient<IDeviceInfoBuilder, BrowserInfoBuilder>(_ => new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Identity.browsers.yml")))
-                .AddTransient<IDeviceInfoBuilder, OsInfoBuilder>(_ => new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Identity.oss.yml")))
-                .AddTransient<IDeviceInfoBuilder, MobileDeviceInfoBuilder>(_ => new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Identity.mobiles.yml")));
+                .AddTransient<IDeviceInfoBuilder, BrowserInfoBuilder>(_ => new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Common.browsers.yml")))
+                .AddTransient<IDeviceInfoBuilder, OsInfoBuilder>(_ => new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Common.oss.yml")))
+                .AddTransient<IDeviceInfoBuilder, MobileDeviceInfoBuilder>(_ => new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Common.mobiles.yml")));
         }
     }
 }
