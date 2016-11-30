@@ -14,7 +14,7 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders
         {
             BuildInternal(deviceInfo, userAgent, (info, value) =>
             {
-                deviceInfo.Client = value;
+                deviceInfo.Browser = value;
             });
 
         }

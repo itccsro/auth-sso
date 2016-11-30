@@ -1,4 +1,5 @@
 ﻿using GovITHub.Auth.Identity.Helpers;
+using GovITHub.Auth.Identity.Infrastructure.Extensions;
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Models.AccountViewModels;
 using GovITHub.Auth.Identity.Services;
@@ -6,6 +7,7 @@ using GovITHub.Auth.Identity.Services.DeviceDetection;
 using IdentityModel;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +31,7 @@ namespace GovITHub.Auth.Identity.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IDeviceDetector _deviceDetector;
+        private readonly ILoginDeviceManagementService _deviceManagementService;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -37,7 +40,8 @@ namespace GovITHub.Auth.Identity.Controllers
             IEnumerable<IEmailSender> emailSenders,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            IDeviceDetector deviceDetector)
+            IDeviceDetector deviceDetector,
+            ILoginDeviceManagementService deviceManagementService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +50,7 @@ namespace GovITHub.Auth.Identity.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _deviceDetector = deviceDetector;
+            _deviceManagementService = deviceManagementService;
         }
 
         //
@@ -80,7 +85,8 @@ namespace GovITHub.Auth.Identity.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    return Request.IsAjaxRequest() ? Json(new { res = true, returnUrl = returnUrl }) :  RedirectToLocal(returnUrl);
+                    await AuditDeviceInfoAsync(model.Email);
+                    return Request.IsAjaxRequest() ? Json(new { res = true, returnUrl = returnUrl }) : RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -103,6 +109,18 @@ namespace GovITHub.Auth.Identity.Controllers
             }
             // If we got this far, something failed, redisplay form
             return Request.IsAjaxRequest() ? Json(new { res = false }) : (IActionResult)View(model);
+        }
+
+        private async Task AuditDeviceInfoAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            await AuditDeviceInfoAsync(user);
+        }
+
+        private async Task AuditDeviceInfoAsync(ApplicationUser user)
+        {
+            var deviceInfo = _deviceDetector.GetDeviceInfo(Request.GetUserAgent());
+            await _deviceManagementService.RegisterDeviceLoginAsync(user.Id, deviceInfo);
         }
 
         //
@@ -134,6 +152,7 @@ namespace GovITHub.Auth.Identity.Controllers
                     await SendEmailConfirmationMessage(model, user);
                     _logger.LogInformation(3, "User created a new account with password.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    await AuditDeviceInfoAsync(model.Email);
                     return Request.IsAjaxRequest() ?
                         Json(new { res = true, returnUrl = returnUrl }) :
                         RedirectToLocal(returnUrl);
@@ -260,10 +279,10 @@ namespace GovITHub.Auth.Identity.Controllers
             if (info == null)
                 return RedirectToAction("Login");
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
-
             if (result.Succeeded)
             {
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
+                await AuditDeviceInfoAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
                 return RedirectToLocal(returnUrl);
             }
             if (result.RequiresTwoFactor)
@@ -287,6 +306,7 @@ namespace GovITHub.Auth.Identity.Controllers
             if (addLoginResult.Succeeded)
             {
                 await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+                await AuditDeviceInfoAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
                 return RedirectToLocal(returnUrl);
             }
             // At this point fallback to Login form.
@@ -572,6 +592,7 @@ namespace GovITHub.Auth.Identity.Controllers
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+                        await AuditDeviceInfoAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
                         _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
                     }

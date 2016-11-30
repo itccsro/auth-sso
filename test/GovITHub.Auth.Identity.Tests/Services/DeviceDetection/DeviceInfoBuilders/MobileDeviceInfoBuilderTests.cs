@@ -40,7 +40,7 @@ namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilde
         {
             var deviceInfo = new DeviceInfo { UserAgent = userAgent };
             _builder.Build(deviceInfo, userAgent);
-            Assert.Equal(expectedDeviceType, deviceInfo.DeviceType);
+            Assert.Equal(expectedDeviceType, deviceInfo.MobileDevice);
         }
     }
 }

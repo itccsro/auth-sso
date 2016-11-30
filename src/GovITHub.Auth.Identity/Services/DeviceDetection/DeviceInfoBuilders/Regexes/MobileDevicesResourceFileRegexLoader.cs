@@ -33,7 +33,7 @@ namespace GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Reg
                 IEnumerable<MobileDeviceRegex> deviceRegexes = ConvertToDeviceRegex(collection);
                 /// HACK: The regex for MicroMax is not well formed and .net framework throws an error
                 /// As a workaround, exclude the MicroMax regex from the result until the regex is replaced.
-                return deviceRegexes.Where(r => r.Name != "MicroMax");
+                return deviceRegexes.Where(r => r.Name != "MicroMax" && r.Name != "Symphony");
             }
         }
 

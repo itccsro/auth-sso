@@ -32,7 +32,7 @@ namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilde
                 UserAgent = userAgent
             };
             _builder.Build(deviceInfo, userAgent);
-            Assert.Equal(expectedOutput, deviceInfo.Client);
+            Assert.Equal(expectedOutput, deviceInfo.Browser);
         }
     }
 }

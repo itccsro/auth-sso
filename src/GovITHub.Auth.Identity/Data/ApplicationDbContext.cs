@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Services.Audit.DataContracts;
 using GovITHub.Auth.Identity.Data.Models;
+using GovITHub.Auth.Identity.Services.DeviceDetection.DataContracts;
 
 namespace GovITHub.Auth.Identity.Data
 {
@@ -26,7 +27,8 @@ namespace GovITHub.Auth.Identity.Data
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<AuditActionMessage>().ToTable("AuditActions");
 
-            builder.Entity<Organization>(b => {
+            builder.Entity<Organization>(b =>
+            {
                 b.HasKey(t => t.Id);
                 b.HasOne(p => p.Parent).
                     WithMany(c => c.Children).
@@ -59,7 +61,7 @@ namespace GovITHub.Auth.Identity.Data
                     WithOne(c => c.OrganizationSetting).
                     HasConstraintName("FK_OrgSetting_EmailSetting");
             });
-            builder.Entity<EmailTemplate>(b => 
+            builder.Entity<EmailTemplate>(b =>
             {
                 b.HasKey(t => t.Id);
                 b.HasOne(p => p.OrganizationSetting).
@@ -78,6 +80,20 @@ namespace GovITHub.Auth.Identity.Data
             builder.Entity<OrganizationClient>(b =>
             {
                 b.HasKey(t => new { t.OrganizationId, t.ClientId });
+            });
+            builder.Entity<LoginDevice>(ld =>
+            {
+                ld.ToTable("LoginDevices");
+                ld.HasKey(_ => _.Id);
+            });
+            builder.Entity<UserLoginDevice>(uld =>
+            {
+                uld.ToTable("UserLoginDevices");
+                uld.HasKey(_ => new
+                {
+                    _.UserId,
+                    _.DeviceId
+                });
             });
         }
 
