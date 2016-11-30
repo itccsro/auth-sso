@@ -1,11 +1,7 @@
 ﻿using GovITHub.Auth.Identity.Helpers;
-using GovITHub.Auth.Identity.Infrastructure.Extensions;
-using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Identity.Models.AccountViewModels;
 using GovITHub.Auth.Common.Services;
-using GovITHub.Auth.Identity.Services;
-using GovITHub.Auth.Identity.Services.DeviceDetection;
 using IdentityModel;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +17,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using GovITHub.Auth.Common.Services.DeviceDetection;
+using GovITHub.Auth.Common.Infrastructure.Extensions;
 
 namespace GovITHub.Auth.Identity.Controllers
 {
@@ -67,7 +65,6 @@ namespace GovITHub.Auth.Identity.Controllers
                 Response.Cookies.Delete("Identity.External");
             }
             ViewData["ReturnUrl"] = returnUrl;
-            var deviceInfo = _deviceDetector.GetDeviceInfo(Request.Headers["User-Agent"].ToString());
             return View();
         }
 

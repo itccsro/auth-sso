@@ -1,6 +1,6 @@
-﻿using GovITHub.Auth.Identity.Services.DeviceDetection.DataContracts;
-using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders;
-using GovITHub.Auth.Identity.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
+﻿using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
+using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
+using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 using Xunit;
 
 namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilders

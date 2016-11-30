@@ -20,7 +20,10 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-    "Microsoft.NETCore.App": "1.1.0",
+    "Microsoft.NETCore.App": {
+      "version": "1.1.0",
+      "type": "platform"
+    },
     "Localization.SqlLocalizer": "1.0.3",
     "MailKit": "1.10.0",
     "WebApiContrib.Core.Formatter.Csv": "1.0.0",
@@ -30,8 +33,6 @@
   },
 
   "buildOptions": {
-    "emitEntryPoint": true,
-    "preserveCompilationContext": true,
     "embed": {
       "includeFiles": [
         "../../dependencies/device-detector/regexes/client/browsers.yml",

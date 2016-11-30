@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GovITHub.Auth.Identity.Tests")]
+[assembly: AssemblyProduct("GovITHub.Auth.Common.Tests")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f8596793-b08a-48f2-8649-36c19953d169")]
+[assembly: Guid("45ac57d2-7da2-4c0b-96c5-1fbb4332b75e")]
