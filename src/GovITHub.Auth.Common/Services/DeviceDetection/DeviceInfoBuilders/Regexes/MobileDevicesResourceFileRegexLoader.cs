@@ -1,22 +1,20 @@
-﻿using System;
+﻿using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using System.Reflection;
-using System.IO;
 
 namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes
 {
     public class MobileDevicesResourceFileRegexLoader : IDeviceInfoRegexLoader<MobileDeviceRegex>
     {
-        private readonly string _resourceName;
+        private readonly IRegexStreamReader _reader;
 
-        public MobileDevicesResourceFileRegexLoader(string resourceName)
+        public MobileDevicesResourceFileRegexLoader(IRegexStreamReader reader)
         {
-            _resourceName = resourceName;
+            _reader = reader;
         }
 
         public IEnumerable<MobileDeviceRegex> LoadRegularExpressions()
@@ -25,8 +23,7 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regex
                 .WithNamingConvention(namingConvention: new CamelCaseNamingConvention())
                 .IgnoreUnmatchedProperties()
                 .Build();
-            var assembly = typeof(DeviceInfoBuilderBase<>).GetTypeInfo().Assembly;
-            using (var stream = assembly.GetManifestResourceStream(_resourceName))
+            using (var stream = _reader.GetRegexStream())
             using (var input = new StreamReader(stream))
             {
                 dynamic collection = serializer.Deserialize(input);

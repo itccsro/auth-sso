@@ -2,9 +2,10 @@
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
+using GovITHub.Auth.Common.Tests.DeviceDetection.DeviceInfoBuilders.Regexes;
 using Xunit;
 
-namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilders
+namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class BrowserInfoBuilderTests
     {
@@ -12,7 +13,8 @@ namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilde
 
         public BrowserInfoBuilderTests()
         {
-            _builder = new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Identity.browsers.yml"));
+            var reader = new RegexResourceFileStreamReader("GovITHub.Auth.Common.Tests.browsers.yml");
+            _builder = new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>(reader));
         }
 
         [Theory]

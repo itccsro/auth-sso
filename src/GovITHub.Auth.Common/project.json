@@ -32,16 +32,6 @@
     "YamlDotNet": "4.0.0"
   },
 
-  "buildOptions": {
-    "embed": {
-      "includeFiles": [
-        "../../dependencies/device-detector/regexes/client/browsers.yml",
-        "../../dependencies/device-detector/regexes/device/mobiles.yml",
-        "../../dependencies/device-detector/regexes/oss.yml"
-      ]
-    }
-  },
-
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [

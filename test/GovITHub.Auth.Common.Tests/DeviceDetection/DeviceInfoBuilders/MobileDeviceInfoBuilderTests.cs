@@ -1,9 +1,10 @@
 ﻿using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
+using GovITHub.Auth.Common.Tests.DeviceDetection.DeviceInfoBuilders.Regexes;
 using Xunit;
 
-namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilders
+namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class MobileDeviceInfoBuilderTests
     {
@@ -11,7 +12,8 @@ namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilde
 
         public MobileDeviceInfoBuilderTests()
         {
-            _builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Identity.mobiles.yml"));
+            var reader = new RegexResourceFileStreamReader("GovITHub.Auth.Common.Tests.mobiles.yml");
+            _builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader(reader));
         }
 
         [Theory]

@@ -9,11 +9,11 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regex
 {
     public class SimpleResourceFileRegexLoader<TRegex> : IDeviceInfoRegexLoader<TRegex> where TRegex : IRegex
     {
-        private readonly string _resourceFile;
+        private readonly IRegexStreamReader _reader;
 
-        public SimpleResourceFileRegexLoader(string resourceFile)
+        public SimpleResourceFileRegexLoader(IRegexStreamReader reader)
         {
-            _resourceFile = resourceFile;
+            _reader = reader;
         }
 
         public IEnumerable<TRegex> LoadRegularExpressions()
@@ -23,7 +23,7 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regex
                .IgnoreUnmatchedProperties()
                .Build();
             var assembly = typeof(DeviceInfoBuilderBase<>).GetTypeInfo().Assembly;
-            using (var stream = assembly.GetManifestResourceStream(_resourceFile))
+            using (var stream = _reader.GetRegexStream())
             using (var reader = new StreamReader(stream))
             {
                 var collection = serializer.Deserialize<List<TRegex>>(reader);

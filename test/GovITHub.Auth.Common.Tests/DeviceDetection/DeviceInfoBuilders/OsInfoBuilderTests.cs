@@ -2,9 +2,10 @@
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
+using GovITHub.Auth.Common.Tests.DeviceDetection.DeviceInfoBuilders.Regexes;
 using Xunit;
 
-namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilders
+namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class OsInfoBuilderTests
     {
@@ -12,7 +13,8 @@ namespace GovITHub.Auth.Identity.Tests.Services.DeviceDetection.DeviceInfoBuilde
 
         public OsInfoBuilderTests()
         {
-            _builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Identity.oss.yml"));
+            var reader = new RegexResourceFileStreamReader("GovITHub.Auth.Common.Tests.oss.yml");
+            _builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>(reader));
         }
 
         [Theory]
