@@ -4,7 +4,7 @@
     angular
         .module('authAdminPanel')
         .controller('OrganizationsListController', ['Organization', '$rootScope', '$log', '$scope', 'User',
-            function (Organization, $rootScope, $log, $scope, User) {
+            function (Sample, $rootScope, $log, $scope, User) {
                 var vm = this,
                     vmLocal = {};
 
@@ -18,7 +18,7 @@
                 vm.sortAscending = true;
 
                 vm.search = function () {
-                    Organization.filter({
+                    Sample.filter({
                         q: vm.query, // {name: "test search"}
                         currentPage: vm.pagination.currentPage, // 1
                         itemsPerPage: vm.pagination.itemsPerPage, // 50
@@ -41,11 +41,11 @@
                 };
 
                 vm.gotoEdit = function (id) {
-                    $rootScope.goto('index.organizations_edit', { id: id });
+                    $rootScope.goto('index.samples_edit', { id: id });
                 };
 
                 vm.delete = function (id) {
-                    Organization.delete({ id: id }).$promise
+                    Sample.delete({ id: id }).$promise
                         .then(function (response) {
                             vm.search();
                         }).catch(function (err) {
