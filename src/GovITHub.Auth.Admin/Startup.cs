@@ -3,6 +3,7 @@ using GovITHub.Auth.Admin.Services.Impl;
 using GovITHub.Auth.Common.Data;
 using GovITHub.Auth.Common.Data.Impl;
 using GovITHub.Auth.Common.Models;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -10,11 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Admin
 {
@@ -65,41 +64,25 @@ namespace GovITHub.Auth.Admin
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            /*app.UseCookieAuthentication(new CookieAuthenticationOptions
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "Cookies"
-            });*/
-            var jwtOptions = new JwtBearerOptions()
+            });
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
             {
-                Authority = "http://localhost:5000/",
-                Audience = "http://localhost:5000/resources",
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,                
-                RequireHttpsMetadata = false
-            };
-            app.UseJwtBearerAuthentication(jwtOptions);
-
-
-        var angularRoutes = new[] {
-                "/forbidden",
-                "/authorized",
-                "/authorize",
-                "/unauthorized",
-                "/index",
-                "/logoff"
-            };
-
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
-                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
-                {
-                    context.Request.Path = "/";
-                }
-                await next();
+                AuthenticationScheme = "oidc",
+                SignInScheme = "Cookies",
+                Authority = "http://localhost:5000",
+                RequireHttpsMetadata = false,
+                ClientId = "mvc",
+                ClientSecret = "secret",
+                ResponseType = "code id_token",
+                Scope = { "api1", "offline_access" },
+                GetClaimsFromUserInfoEndpoint = true,
+                SaveTokens = true
             });
 
-            app.UseDefaultFiles();
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
