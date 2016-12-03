@@ -13,7 +13,7 @@ namespace GovITHub.Auth.Common.Data.Impl
             _dbContext = dbContext; 
         }
 
-        public ModelQuery<OrganizationViewModel> GetAll(ModelQueryFilter filter)
+        public ModelQuery<OrganizationViewModel> Filter(ModelQueryFilter filter)
         {
             if (filter == null) // get all
                 return new ModelQuery<OrganizationViewModel>()
@@ -62,7 +62,7 @@ namespace GovITHub.Auth.Common.Data.Impl
         public void Add(OrganizationViewModel item, string adminUserName, long? parentOrganizationId)
         {
             if (_dbContext.Organizations.Any(t => t.Name == item.Name))
-                throw new Exception(string.Format("Organization {0} already exists!", item.Name));
+                throw new ArgumentException(string.Format("Organization {0} already exists!", item.Name));
             if (!parentOrganizationId.HasValue)
             {
                 var rootOrg = _dbContext.Organizations.FirstOrDefault(t => t.ParentId == null);
@@ -71,7 +71,11 @@ namespace GovITHub.Auth.Common.Data.Impl
                 parentOrganizationId = rootOrg.Id;
             }
             var adminUser = _dbContext.Users.FirstOrDefault(t => t.UserName == adminUserName);
-            if (adminUser != null)
+            if (adminUser == null)
+            {
+                throw new ArgumentException(string.Format("User {0} could not be found!", adminUserName));
+            }
+            else
             {
                 var newOrganization = new Organization()
                 {
@@ -87,10 +91,6 @@ namespace GovITHub.Auth.Common.Data.Impl
                 _dbContext.Organizations.Add(newOrganization);
                 _dbContext.SaveChanges();
                 item.Id = newOrganization.Id;
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("User {0} could not be found!", adminUserName));
             }
         }
 

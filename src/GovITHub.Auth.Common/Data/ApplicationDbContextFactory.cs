@@ -13,7 +13,7 @@ namespace GovITHub.Auth.Common.Data
         public ApplicationDbContext Create(DbContextFactoryOptions options)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();           
-            optionsBuilder.UseMySQL("server=localhost;userid=root;pwd=qwer;port=3306;database=sso;sslmode=none;");
+            optionsBuilder.UseMySQL("DefaultConnection;");
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }
