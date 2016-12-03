@@ -2,7 +2,10 @@
 using GovITHub.Auth.Common.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
+using System;
 
 namespace GovITHub.Auth.Common.Data
 {
@@ -16,40 +19,72 @@ namespace GovITHub.Auth.Common.Data
             context.Database.Migrate();
         }
 
-        public async void InitializeData(UserManager<ApplicationUser> userManager)
+        public async Task InitializeDataAsync(UserManager<ApplicationUser> userManager, IConfigurationRoot configurationService)
         {
             var mainOrg = context.Organizations.FirstOrDefault(t => t.ParentId == null);
             if (mainOrg == null)
             {
-                mainOrg = new Organization()
-                {
-                    Name = Config.MAIN_ORG_NAME,
-                    Website = Config.MAIN_ORG_WEBSITE
-                };
-                context.Organizations.Add(mainOrg);
-                context.SaveChanges();
+                mainOrg = CreateRootOrganization(configurationService);
             }
+            string adminUserId = await GetRootOrganizationAdminIdAsync(userManager, configurationService);
+            AttachAdminUserToOrganization(mainOrg.Id, adminUserId);
+        }
 
-            string adminUserId;
-            var adminUser = await userManager.FindByEmailAsync(Config.MAIN_ORG_ADMIN_USERNAME);
-            if(adminUser == null)
+        private Organization CreateRootOrganization(IConfigurationRoot configurationService)
+        {
+            string orgName = configurationService[Config.MAIN_ORG_NAME_KEY];
+            if (string.IsNullOrWhiteSpace(orgName))
+                throw new ArgumentException("Root organization name missing from configuration!");
+            var mainOrg = new Organization()
             {
+                Name = orgName,
+                Website = configurationService[Config.MAIN_ORG_WEBSITE_KEY]
+            };
+            context.Organizations.Add(mainOrg);
+            context.SaveChanges();
+            return mainOrg;
+        }
+
+        /// <summary>
+        /// Returns the Id of the user with admin role attached to root organization.
+        /// It creates the user if the user is not present, based on configuration.
+        /// </summary>
+        /// <param name="configurationService">App configuration service</param>
+        /// <returns>Id of the admin user, as string.</returns>
+        private async Task<string> GetRootOrganizationAdminIdAsync(UserManager<ApplicationUser> userManager, IConfigurationRoot configurationService)
+        {
+            var defaultAdminUsername = configurationService[Config.MAIN_ORG_ADMIN_USERNAME_KEY];
+            if (string.IsNullOrWhiteSpace(defaultAdminUsername))
+                throw new ArgumentNullException("Root organization's admin username (email) missing from configuration!");
+            var adminUser = await userManager.FindByEmailAsync(defaultAdminUsername);
+            if (adminUser == null)
+            {
+                var defaultAdminPassword = configurationService[Config.MAIN_ORG_ADMIN_FIRST_PASSWORD_KEY];
+                if (string.IsNullOrWhiteSpace(defaultAdminPassword))
+                    throw new ArgumentNullException("Root organization's admin password missing from configuration!");
+                // maybe validate the password strength also ?
                 adminUser = new ApplicationUser()
                 {
-                    Email = Config.MAIN_ORG_ADMIN_USERNAME,
-                    UserName = Config.MAIN_ORG_ADMIN_USERNAME
+                    Email = defaultAdminUsername,
+                    UserName = defaultAdminUsername
                 };
-                var identityResult = await userManager.CreateAsync(adminUser, Config.MAIN_ORG_ADMIN_FIRST_PASSWORD);
+                var identityResult = await userManager.CreateAsync(adminUser,
+                    defaultAdminPassword);
             }
-            adminUserId = adminUser.Id;
+            return adminUser.Id;
+        }
+
+        private void AttachAdminUserToOrganization(long organizationId, string adminUserId)
+        {
             var orgUser = context.OrganizationUsers.
-                FirstOrDefault(t => t.OrganizationId == mainOrg.Id && t.UserId == adminUserId);
+                FirstOrDefault(t => t.OrganizationId == organizationId && t.UserId == adminUserId);
+            // if not already attached, attach it
             if (orgUser == null)
             {
                 orgUser = new OrganizationUser()
                 {
                     Level = OrganizationUserLevel.Admin,
-                    OrganizationId = mainOrg.Id,
+                    OrganizationId = organizationId,
                     UserId = adminUserId
                 };
                 context.OrganizationUsers.Add(orgUser);

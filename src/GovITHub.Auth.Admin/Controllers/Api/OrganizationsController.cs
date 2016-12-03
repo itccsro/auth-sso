@@ -10,11 +10,11 @@ namespace GovITHub.Auth.Admin.Controllers.Api
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class OrganizationController : Controller
+    public class OrganizationsController : Controller
     {
         private IOrganizationRepository _repository;
 
-        public OrganizationController(IOrganizationRepository repository)
+        public OrganizationsController(IOrganizationRepository repository)
         {
             _repository = repository;
         }
@@ -24,7 +24,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
             [FromQuery]bool sortAscending, [FromQuery]string sortBy)
         {
             var filter = new ModelQueryFilter(currentPage, itemsPerPage, sortAscending, sortBy);
-            return new ObjectResult(_repository.GetAll(filter));
+            return new ObjectResult(_repository.Filter(filter));
         }
 
         [HttpGet("{id}", Name = "GetOrganization")]

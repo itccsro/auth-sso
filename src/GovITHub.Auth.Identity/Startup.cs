@@ -157,7 +157,7 @@ namespace GovITHub.Auth.Identity
 
             try
             {
-                appDataInitializer.InitializeData(userManager);
+                appDataInitializer.InitializeDataAsync(userManager, Configuration);
                 cfgDataInitializer.InitializeData();
                 localizationDataInitializer.InitializeData();
             }

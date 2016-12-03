@@ -28,6 +28,8 @@ namespace GovITHub.Auth.Common.Data
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> query, string name)
         {
             var propInfo = GetPropertyInfo(typeof(T), name);
+            if (propInfo == null)
+                throw new ArgumentException("name");
             var expr = GetOrderExpression(typeof(T), propInfo);
 
             var method = typeof(Enumerable).GetMethods().FirstOrDefault(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
@@ -38,6 +40,8 @@ namespace GovITHub.Auth.Common.Data
         public static IEnumerable<T> OrderByDescending<T>(this IEnumerable<T> query, string name)
         {
             var propInfo = GetPropertyInfo(typeof(T), name);
+            if (propInfo == null)
+                throw new ArgumentException("name");
             var expr = GetOrderExpression(typeof(T), propInfo);
 
             var method = typeof(Enumerable).GetMethods().FirstOrDefault(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2);
@@ -48,6 +52,8 @@ namespace GovITHub.Auth.Common.Data
         public static IQueryable<T> OrderBy<T>(this IQueryable<T> query, string name)
         {
             var propInfo = GetPropertyInfo(typeof(T), name);
+            if (propInfo == null)
+                throw new ArgumentException("name");
             var expr = GetOrderExpression(typeof(T), propInfo);
 
             var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
@@ -57,6 +63,8 @@ namespace GovITHub.Auth.Common.Data
         public static IQueryable<T> OrderByDescending<T>(this IQueryable<T> query, string name)
         {
             var propInfo = GetPropertyInfo(typeof(T), name);
+            if (propInfo == null)
+                throw new ArgumentException("name");
             var expr = GetOrderExpression(typeof(T), propInfo);
 
             var method = typeof(Enumerable).GetMethods().FirstOrDefault(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2);
@@ -69,6 +77,8 @@ namespace GovITHub.Auth.Common.Data
     {
         public static string ToTitleCase(this string str)
         {
+            if (string.IsNullOrWhiteSpace(str))
+                return str;
             var tokens = str.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
             for (var i = 0; i < tokens.Length; i++)
             {

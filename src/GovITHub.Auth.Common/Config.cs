@@ -27,10 +27,10 @@ namespace GovITHub.Auth.Common
         #endregion
 
         #region value initializers 
-        public static readonly string MAIN_ORG_NAME = "GovIT HUB";
-        public static readonly string MAIN_ORG_WEBSITE = "http://ithub.gov.ro";
-        public static readonly string MAIN_ORG_ADMIN_USERNAME = "admin@ithub.gov.ro";
-        public static readonly string MAIN_ORG_ADMIN_FIRST_PASSWORD = "Start123!";
+        public static readonly string MAIN_ORG_NAME_KEY = "Setup:RootOrganization:Name";
+        public static readonly string MAIN_ORG_WEBSITE_KEY = "Setup:RootOrganization:Website";
+        public static readonly string MAIN_ORG_ADMIN_USERNAME_KEY = "Setup:RootOrganization:AdminUsername";
+        public static readonly string MAIN_ORG_ADMIN_FIRST_PASSWORD_KEY = "Setup:RootOrganization:AdminPassword";
         #endregion
 
         // scopes define the resources in your system
