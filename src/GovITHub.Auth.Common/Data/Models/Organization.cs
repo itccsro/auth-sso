@@ -10,6 +10,8 @@ namespace GovITHub.Auth.Common.Data.Models
         [MaxLength(50)]
         [Required]
         public string Name { get; set; }
+
+        public string Website { get; set; }
         public long? ParentId { get; set; }
         public Organization Parent { get; set; }
         public List<Organization> Children { get; set; }

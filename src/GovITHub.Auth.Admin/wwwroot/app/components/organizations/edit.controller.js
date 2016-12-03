@@ -5,22 +5,20 @@
         .module('authAdminPanel')
         .controller('OrganizationsEditController', ["Organization", "$state", "$scope", 'status', 'id',
 
-        function (Sample, $state, $scope, status, id) {
+        function (Organization, $state, $scope, status, id) {
             var vm = this,
                 vmLocal = {};
 
             vm.data = {
-                isComplete: false
             };
             vm.status = status;
-
             vm.id = id;
 
             var create = function () {
-                Sample
+                Organization
                     .save(vm.data).$promise
                     .then(function (result) {
-                        $state.go('index.samples');
+                        $state.go('index.organizations');
                     }).catch(function (err) {
                         vm.error = err;
                         console.error(err);
@@ -28,10 +26,10 @@
             };
 
             var update = function () {
-                Sample
+                Organization
                     .update({ id: vm.id }, vm.data).$promise
                     .then(function (result) {
-                        $state.go('index.samples');
+                        $state.go('index.organizations');
                     }).catch(function (err) {
                         vm.error = err;
                         console.error(err);
@@ -47,7 +45,7 @@
             };
 
             vm.init = function () {
-                Sample.get({ id: vm.id }).$promise
+                Organization.get({ id: vm.id }).$promise
                     .then(function (result) {
                         vm.data = result;
                     }).catch(function (err) {

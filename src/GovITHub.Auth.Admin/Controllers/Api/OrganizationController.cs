@@ -1,7 +1,10 @@
-﻿using GovITHub.Auth.Common.Data;
+﻿using GovITHub.Auth.Admin.Services;
+using GovITHub.Auth.Common.Data;
 using GovITHub.Auth.Common.Data.Models;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace GovITHub.Auth.Admin.Controllers.Api
 {
@@ -36,13 +39,14 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Organization item)
+        public IActionResult Create([FromBody] OrganizationViewModel item)
         {
             if (item == null)
             {
                 return BadRequest();
             }
-            _repository.Add(item);
+            string userName = User.Claims.GetClaim(JwtClaimTypes.Name);
+            _repository.Add(item, userName);
             return CreatedAtRoute("GetOrganization", new { id = item.Id }, item);
         }
 

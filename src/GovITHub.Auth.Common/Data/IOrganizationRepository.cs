@@ -1,5 +1,5 @@
 ﻿using GovITHub.Auth.Common.Data.Models;
-using System.Collections.Generic;
+using GovITHub.Auth.Common.Models;
 
 namespace GovITHub.Auth.Common.Data
 {
@@ -8,7 +8,8 @@ namespace GovITHub.Auth.Common.Data
         Organization Find(long id);
         void Update(Organization item);
         Organization Remove(long id);
-        void Add(Organization item);
-        ModelQuery<Organization> GetAll(ModelQueryFilter filter);
+        void Add(OrganizationViewModel item, string adminUserName);
+        ModelQuery<OrganizationViewModel> GetAll(ModelQueryFilter filter);
+        OrganizationUserModel GetOrganizationUser(string name);
     }
 }

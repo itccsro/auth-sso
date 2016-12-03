@@ -8,9 +8,10 @@ using GovITHub.Auth.Common.Data;
 namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161203063557_OrganizationSmallChange")]
+    partial class OrganizationSmallChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");

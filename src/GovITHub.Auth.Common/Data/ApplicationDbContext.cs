@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-//using GovITHub.Auth.Identity.Models;
+﻿using GovITHub.Auth.Common.Data.Models;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Common.Services.Audit.DataContracts;
-using GovITHub.Auth.Common.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace GovITHub.Auth.Common.Data
 {

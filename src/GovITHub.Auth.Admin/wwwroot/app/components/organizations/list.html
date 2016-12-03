@@ -6,7 +6,7 @@
                 <a ui-sref="index.main">Home</a>
             </li>
             <li class="active">
-                <strong>Samples</strong>
+                <strong>Organizatii</strong>
             </li>
         </ol>
     </div>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group ">
-                        <label class="control-label">Complet?</label>
+                        <label class="control-label">Website</label>
                         <!--<input type="text" id="quantity " name="quantity" placeholder="ex Tirana" class="form-control" ng-model="vm.query.city">-->
                     </div>
                 </div>
@@ -76,10 +76,10 @@
                                     </a>
                                 </th>
                                 <th>
-                                    <a ng-click="vm.sort('isComplete')">
+                                    <a ng-click="vm.sort('website')">
                                         Complet
-                                        <span ng-show="vm.sortBy === 'isComplete' && vm.sortAscending === true " class="fa fa-caret-up "></span>
-                                        <span ng-show="vm.sortBy === 'isComplete' && vm.sortAscending === false " class="fa fa-caret-down "></span>
+                                        <span ng-show="vm.sortBy === 'website' && vm.sortAscending === true " class="fa fa-caret-up "></span>
+                                        <span ng-show="vm.sortBy === 'website' && vm.sortAscending === false " class="fa fa-caret-down "></span>
                                     </a>
                                 </th>
                                 <th>
@@ -90,13 +90,13 @@
                         <tbody>
                             <tr ng-repeat="item in vm.items track by $index ">
                                 <td>
-                                    {{ item.key }}
+                                    {{ item.id }}
                                 </td>
                                 <td>
                                     {{ item.name }}
                                 </td>
                                 <td>
-                                    {{ item.isComplete }}
+                                    {{ item.website }}
                                 </td>
                                 <td class="text-right ">
                                     <div class="btn-group ">
