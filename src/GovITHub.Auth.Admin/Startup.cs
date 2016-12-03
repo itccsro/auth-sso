@@ -46,9 +46,11 @@ namespace GovITHub.Auth.Admin
 
             services.AddSingleton<ISampleRepository, SampleRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
+            services.AddTransient<IUserClaimsExtender, UserClaimsExtender>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            ILoggerFactory loggerFactory, IUserClaimsExtender userClaimsExtender)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -79,7 +81,14 @@ namespace GovITHub.Auth.Admin
                 ResponseType = "code id_token",
                 Scope = { "api1", "offline_access" },
                 GetClaimsFromUserInfoEndpoint = true,
-                SaveTokens = true
+                SaveTokens = true,
+                Events = new OpenIdConnectEvents(){
+                    OnTicketReceived = (context) =>
+                    {
+                        context.Principal = userClaimsExtender.TransformClaims(context.Ticket.Principal);
+                        return Task.CompletedTask;
+                    }
+                }
             });
 
             //app.UseDefaultFiles();

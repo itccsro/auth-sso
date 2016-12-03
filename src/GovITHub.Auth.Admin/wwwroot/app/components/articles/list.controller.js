@@ -3,8 +3,8 @@
 /*eslint angular/di: [2,"array"]*/
 
 angular.module('authAdminPanel')
-.controller('articlesListController', ['$scope', 'resourceManager', '$log', '$rootScope', 'User', 
-    function($scope, resourceManager, $log, $rootScope, User) {
+.controller('articlesListController', ['$scope', 'resourceManager', '$log', '$rootScope', 'UserIdentityService',
+    function ($scope, resourceManager, $log, $rootScope, UserIdentityService) {
     var vm = this,
         vmLocal = {};
     vm.data = []

@@ -2,8 +2,8 @@
     'use strict';
     /*eslint angular/di: [2,"array"]*/
     angular.module('authAdminPanel')
-    .controller('articlesNewController', ['resourceManager', '$rootScope', '$log', '$scope', 'articleId', 'User',
-        function (resourceManager, $rootScope, $log, $scope, articleId, User) {
+    .controller('articlesNewController', ['resourceManager', '$rootScope', '$log', '$scope', 'articleId', 'UserIdentityService',
+        function (resourceManager, $rootScope, $log, $scope, articleId, UserIdentityService) {
             var vm = this,
                 vmLocal = {};
 

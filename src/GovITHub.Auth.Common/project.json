@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-*",
+    "version": "1.0.0-*",
 
   "dependencies": {
     "GovITHub.External.Postmark.NetCore": "1.0.0-*",
@@ -41,5 +41,8 @@
         "portable-net45+win8"
       ]
     }
-  }
+  },
+    "buildOptions": {
+        "emitEntryPoint": true
+    }
 }

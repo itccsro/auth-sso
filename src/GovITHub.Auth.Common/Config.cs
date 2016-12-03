@@ -26,6 +26,13 @@ namespace GovITHub.Auth.Common
         public static readonly string SMTP_USESSL = "EmailSender:SMTP:UseSSL";
         #endregion
 
+        #region value initializers 
+        public static readonly string MAIN_ORG_NAME = "GovIT HUB";
+        public static readonly string MAIN_ORG_WEBSITE = "http://ithub.gov.ro";
+        public static readonly string MAIN_ORG_ADMIN_USERNAME = "admin@ithub.gov.ro";
+        public static readonly string MAIN_ORG_ADMIN_FIRST_PASSWORD = "Start123!";
+        #endregion
+
         // scopes define the resources in your system
         internal static IEnumerable<Scope> GetScopes()
         {

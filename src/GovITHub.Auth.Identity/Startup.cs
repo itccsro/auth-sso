@@ -7,6 +7,7 @@ using GovITHub.Auth.Common.Services.Impl;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -99,7 +100,8 @@ namespace GovITHub.Auth.Identity
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ConfigurationDataInitializer cfgDataInitializer,
-            ApplicationDataInitializer appDataInitializer, LocalizationDataInitializer localizationDataInitializer)
+            ApplicationDataInitializer appDataInitializer, LocalizationDataInitializer localizationDataInitializer,
+            UserManager<ApplicationUser> userManager)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -155,7 +157,7 @@ namespace GovITHub.Auth.Identity
 
             try
             {
-                appDataInitializer.InitializeData();
+                appDataInitializer.InitializeData(userManager);
                 cfgDataInitializer.InitializeData();
                 localizationDataInitializer.InitializeData();
             }

@@ -1,12 +1,18 @@
 'use strict';
 
 angular.module('authAdminPanel')
-  .controller('MainController',['User', function (User) { 
+  .controller('MainController', ['$scope', '$state', 'UserIdentityService', function ($scope, $state, UserIdentityService) {
 
-    var vm = this;
-
-    vm.userName = User.data.name;
-    vm.helloText = 'Welcome in Admin Auth Panel';
-    vm.descriptionText = 'This is a Angular web-app';
-
+      var vm = this;
+      UserIdentityService.getUser().then(function (data) {
+          vm.userName = data.username;
+          if (data.organizationId < 1){
+              $state.go("index.organization_new");
+              return;
+          }
+          vm.helloText = 'Welcome in Admin Auth Panel';
+          vm.descriptionText = 'This is a Angular web-app';
+      }, function () {
+          $scope.error = 'unable to retrieve the user';
+      });
   }]);
