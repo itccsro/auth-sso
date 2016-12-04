@@ -67,6 +67,7 @@ namespace GovITHub.Auth.Identity
             // Add application services.
             services.AddTransient<ConfigurationDataInitializer>();
             services.AddTransient<ApplicationDataInitializer>();
+            services.AddTransient<LocalizationDataInitializer>();
             services.AddTransient<IEmailSender, PostmarkEmailSender>();
             services.AddTransient<IEmailSender, SMTPEmailSender>();
             services.AddTransient<ISmsSender, SmsSender>();
@@ -97,7 +98,7 @@ namespace GovITHub.Auth.Identity
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ConfigurationDataInitializer cfgDataInitializer,
-            ApplicationDataInitializer appDataInitializer)
+            ApplicationDataInitializer appDataInitializer, LocalizationDataInitializer localizationDataInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -155,6 +156,7 @@ namespace GovITHub.Auth.Identity
             {
                 appDataInitializer.InitializeData();
                 cfgDataInitializer.InitializeData();
+                localizationDataInitializer.InitializeData();
             }
             catch (Exception ex)
             {
