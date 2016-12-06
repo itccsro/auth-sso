@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-//using GovITHub.Auth.Identity.Models;
+using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Common.Services.Audit.DataContracts;
 using GovITHub.Auth.Common.Data.Models;
@@ -27,7 +23,8 @@ namespace GovITHub.Auth.Common.Data
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<AuditActionMessage>().ToTable("AuditActions");
 
-            builder.Entity<Organization>(b => {
+            builder.Entity<Organization>(b =>
+            {
                 b.HasKey(t => t.Id);
                 b.HasOne(p => p.Parent).
                     WithMany(c => c.Children).
@@ -61,7 +58,7 @@ namespace GovITHub.Auth.Common.Data
                     HasForeignKey<OrganizationSetting>(p => p.EmailSettingId).
                     HasConstraintName("FK_OrgSetting_EmailSetting");
             });
-            builder.Entity<EmailTemplate>(b => 
+            builder.Entity<EmailTemplate>(b =>
             {
                 b.HasKey(t => t.Id);
                 b.HasOne(p => p.OrganizationSetting).
@@ -80,6 +77,20 @@ namespace GovITHub.Auth.Common.Data
             builder.Entity<OrganizationClient>(b =>
             {
                 b.HasKey(t => new { t.OrganizationId, t.ClientId });
+            });
+            builder.Entity<LoginDevice>(ld =>
+            {
+                ld.ToTable("LoginDevices");
+                ld.HasKey(_ => _.Id);
+            });
+            builder.Entity<UserLoginDevice>(uld =>
+            {
+                uld.ToTable("UserLoginDevices");
+                uld.HasKey(_ => new
+                {
+                    _.UserId,
+                    _.DeviceId
+                });
             });
         }
 

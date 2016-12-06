@@ -20,5 +20,17 @@
     },
     // Optinally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/device-detection/browsers.yml",
+    "inputFiles": [ "../../dependencies/device-detector/regexes/client/browsers.yml" ]
+  },
+  {
+    "outputFileName": "wwwroot/device-detection/mobiles.yml",
+    "inputFiles": [ "../../dependencies/device-detector/regexes/device/mobiles.yml" ]
+  },
+  {
+    "outputFileName": "wwwroot/device-detection/oss.yml",
+    "inputFiles": [ "../../dependencies/device-detector/regexes/oss.yml" ]
   }
 ]

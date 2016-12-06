@@ -45,7 +45,7 @@ namespace GovITHub.Auth.Identity
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;
             // Add framework services.
             services.
                 AddEntityFramework().
@@ -58,6 +58,7 @@ namespace GovITHub.Auth.Identity
 
             services.ConfigureAudit();
             services.ConfigureLocalization(mySqlConnectionString, migrationsAssembly);
+            services.ConfigureDeviceDetection();
 
             services.AddMvc(options =>
             {
