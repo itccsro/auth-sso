@@ -98,7 +98,7 @@ namespace GovITHub.Auth.Identity
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ConfigurationDataInitializer cfgDataInitializer,
             ApplicationDataInitializer appDataInitializer, LocalizationDataInitializer localizationDataInitializer,
             UserManager<ApplicationUser> userManager)
@@ -157,7 +157,7 @@ namespace GovITHub.Auth.Identity
 
             try
             {
-                appDataInitializer.InitializeDataAsync(userManager, Configuration);
+                await appDataInitializer.InitializeDataAsync(userManager, Configuration);
                 cfgDataInitializer.InitializeData();
                 localizationDataInitializer.InitializeData();
             }

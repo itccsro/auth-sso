@@ -16,11 +16,11 @@ namespace GovITHub.Auth.Common.Data
         public ApplicationDataInitializer(ApplicationDbContext ctx)
         {
             context = ctx;
-            context.Database.Migrate();
         }
 
         public async Task InitializeDataAsync(UserManager<ApplicationUser> userManager, IConfigurationRoot configurationService)
         {
+            context.Database.Migrate();
             var mainOrg = context.Organizations.FirstOrDefault(t => t.ParentId == null);
             if (mainOrg == null)
             {
