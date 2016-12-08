@@ -9,11 +9,11 @@ namespace GovITHub.Auth.Common.Data
         public ApplicationDataInitializer(ApplicationDbContext ctx)
         {
             context = ctx;
-            context.Database.Migrate();
         }
 
         public void InitializeData()
         {
+            context.Database.Migrate();
         }
     }
 }
