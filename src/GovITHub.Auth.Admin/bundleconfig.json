@@ -24,25 +24,26 @@
   {
     "outputFileName": "wwwroot/js/vendor.min.js",
     "inputFiles": [
-      "wwwroot/libs/jquery/**/*.js",
-      "wwwroot/libs/lodash/**/*.js",
-      "wwwroot/libs/moment/**/*.js",
-      "wwwroot/libs/bootstrap/**/*.js",
-      "wwwroot/libs/angular/**/*.js",
-      "wwwroot/libs/pace/**/*.js",
-      "wwwroot/libs/metisMenu/**/*.js",
-      "wwwroot/libs/fontawesome/**/*.js",
-      "wwwroot/libs/angular-animate/**/*.js",
-      "wwwroot/libs/angular-cookies/**/*.js",
-      "wwwroot/libs/angular-touch/**/*.js",
-      "wwwroot/libs/angular-sanitize/**/*.js",
-      "wwwroot/libs/angular-messages/**/*.js",
-      "wwwroot/libs/angular-aria/**/*.js",
-      "wwwroot/libs/angular-resource/**/*.js",
-      "wwwroot/libs/angular-ui-router/**/*.js",
-      "wwwroot/libs/angular-bootstrap/**/*.js",
-      "wwwroot/libs/animate.css/**/*.js",
-      "wwwroot/libs/angular-ui-tree/**/*.js"
+        "wwwroot/libs/jquery/**/*.js",
+        "wwwroot/libs/bootstrap/**/*.js",
+        "wwwroot/libs/lodash/**/*.js",
+        "wwwroot/libs/metisMenu/**/*.js",
+        "wwwroot/libs/moment/**/*.js",
+        "wwwroot/libs/pace/**/*.js",
+        "wwwroot/libs/angular/**/*.js",
+        "wwwroot/libs/angular-animate/**/*.js",
+        "wwwroot/libs/angular-aria/**/*.js",
+        "wwwroot/libs/angular-bootstrap/**/*.js",
+        "wwwroot/libs/angular-cookies/**/*.js",
+        "wwwroot/libs/angular-messages/**/*.js",
+        "wwwroot/libs/angular-local-storage/dist/*.js",
+        "wwwroot/libs/angular-mocks/**/*.js",
+        "wwwroot/libs/angular-resource/**/*.js",
+        "wwwroot/libs/angular-sanitize/**/*.js",
+        "wwwroot/libs/angular-touch/**/*.js",
+        "wwwroot/libs/angular-ui-router/**/*.js",
+        "wwwroot/libs/angular-ui-tree/**/*.js",
+        "wwwroot/libs/animate.css/**/*.js"
     ],
     "minify": {
       "enabled": false,
@@ -53,12 +54,14 @@
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
-      "wwwroot/app/index.module.js",
-      "wwwroot/app/index.route.js",
-      "wwwroot/app/index.run.js",
-      "wwwroot/app/index.service.js",
-      "wwwroot/app/directives.js",
-      "wwwroot/app/admin.js"
+        "wwwroot/app/index.module.js",
+        "wwwroot/app/index.route.js",
+        "wwwroot/app/index.run.js",
+        "wwwroot/app/index.service.js",
+        "wwwroot/app/services/AuthorizationInterceptor.js",
+        "wwwroot/app/services/SecurityService.js",
+        "wwwroot/app/directives.js",
+        "wwwroot/app/admin.js"
     ],
     "minify": {
       "enabled": false,
@@ -69,7 +72,7 @@
   {
     "outputFileName": "wwwroot/js/site.components.min.js",
     "inputFiles": [
-      "wwwroot/app/components/**/*.js"
+        "wwwroot/app/components/**/*.js"
     ],
     "minify": {
       "enabled": false,

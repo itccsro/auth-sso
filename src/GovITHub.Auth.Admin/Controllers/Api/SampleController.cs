@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using GovITHub.Auth.Admin.Models;
 using GovITHub.Auth.Admin.Services;
-using GovITHub.Auth.Admin.Models;
+using GovITHub.Auth.Common.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Admin.Controllers.Api
 {

@@ -26,6 +26,13 @@ namespace GovITHub.Auth.Common
         public static readonly string SMTP_USESSL = "EmailSender:SMTP:UseSSL";
         #endregion
 
+        #region value initializers 
+        public static readonly string MAIN_ORG_NAME_KEY = "Setup:RootOrganization:Name";
+        public static readonly string MAIN_ORG_WEBSITE_KEY = "Setup:RootOrganization:Website";
+        public static readonly string MAIN_ORG_ADMIN_USERNAME_KEY = "Setup:RootOrganization:AdminUsername";
+        public static readonly string MAIN_ORG_ADMIN_FIRST_PASSWORD_KEY = "Setup:RootOrganization:AdminPassword";
+        #endregion
+
         // scopes define the resources in your system
         internal static IEnumerable<Scope> GetScopes()
         {

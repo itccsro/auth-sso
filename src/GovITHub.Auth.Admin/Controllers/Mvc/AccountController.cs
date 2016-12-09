@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Admin.Controllers
 {
@@ -17,6 +13,11 @@ namespace GovITHub.Auth.Admin.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
         public IActionResult TestClaims()
         {
             return View();

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
+using GovITHub.Auth.Common.Data.Models;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Common.Services.Audit.DataContracts;
-using GovITHub.Auth.Common.Data.Models;
+using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace GovITHub.Auth.Common.Data
 {
@@ -12,8 +12,6 @@ namespace GovITHub.Auth.Common.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            // commented due to ApplicationDataInitializer.InitializeData()
-            // Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

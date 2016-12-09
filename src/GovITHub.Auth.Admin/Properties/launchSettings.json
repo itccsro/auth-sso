@@ -20,9 +20,9 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:5002/api/values",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }
     }
   }
 }
