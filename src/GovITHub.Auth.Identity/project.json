@@ -47,7 +47,7 @@
     "Localization.SqlLocalizer": "1.0.3",
     "WebApiContrib.Core.Formatter.Csv": "1.0.0",
     "GovITHub.Auth.Common": "1.0.0-*",
-    "BundlerMinifier.Core": "2.0.238"
+    "BundlerMinifier.Core": "2.2.301"
   },
   "frameworks": {
     "netcoreapp1.0": {
@@ -71,10 +71,12 @@
     }
   },
   "scripts": {
-    "prepublish": [ "bower install", "dotnet bundle" ],
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-  },
+	 "precompile": [ "dotnet bundle" ],
+	 "prepublish": [ "bower install", "dotnet bundle" ],
+	 "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+	},
   "tools": {
+	 "BundlerMinifier.Core": "2.2.301"
   },
   "userSecretsId": "aspnet-GovITHub.Auth.Identity-b9afdfd1-ce44-41c2-86d4-8a13753b4fcf"
 }
