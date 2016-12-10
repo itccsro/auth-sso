@@ -37,7 +37,6 @@
         "wwwroot/libs/angular-cookies/**/*.js",
         "wwwroot/libs/angular-messages/**/*.js",
         "wwwroot/libs/angular-local-storage/dist/*.js",
-        "wwwroot/libs/angular-mocks/**/*.js",
         "wwwroot/libs/angular-resource/**/*.js",
         "wwwroot/libs/angular-sanitize/**/*.js",
         "wwwroot/libs/angular-touch/**/*.js",

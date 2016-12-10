@@ -10,6 +10,7 @@ angular.module('authAdminPanel')
               $state.go("index.organization_new");
               return;
           }
+          vm.organizationName = data.organizationName;
           vm.helloText = 'Welcome in Admin Auth Panel';
           vm.descriptionText = 'This is a Angular web-app';
       }, function () {
