@@ -75,6 +75,7 @@
 	 "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   },
   "tools": {
+    "BundlerMinifier.Core": "2.2.306"
   },
   "userSecretsId": "aspnet-GovITHub.Auth.Identity-b9afdfd1-ce44-41c2-86d4-8a13753b4fcf"
 }
