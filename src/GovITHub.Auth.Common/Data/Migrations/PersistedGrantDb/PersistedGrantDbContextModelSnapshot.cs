@@ -7,7 +7,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 
 namespace GovITHub.Auth.Common.Data.Migrations.PersistedGrantDb
 {
-    [DbContext(typeof(PersistedGrantDbContext))]
+    [DbContext(typeof(ExtendedPersistedGrantDbContext))]
     partial class PersistedGrantDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

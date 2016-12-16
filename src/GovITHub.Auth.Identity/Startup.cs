@@ -17,6 +17,9 @@ using Microsoft.Extensions.Options;
 using MySQL.Data.Entity.Extensions;
 using System;
 using System.Reflection;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Interfaces;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace GovITHub.Auth.Identity
 {
@@ -95,6 +98,14 @@ namespace GovITHub.Auth.Identity
                     builder.UseMySQL(mySqlConnectionString, options =>
                         options.MigrationsAssembly(migrationsAssembly)))
                 .AddAspNetIdentity<ApplicationUser>();
+
+            services.AddDbContext<ExtendedPersistedGrantDbContext>();
+            services.Replace(new ServiceDescriptor(typeof(PersistedGrantDbContext),
+                typeof(ExtendedPersistedGrantDbContext),
+                ServiceLifetime.Scoped));
+            services.Replace(new ServiceDescriptor(typeof(IPersistedGrantDbContext),
+                typeof(ExtendedPersistedGrantDbContext),
+                ServiceLifetime.Scoped));                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -157,9 +168,9 @@ namespace GovITHub.Auth.Identity
 
             try
             {
+                localizationDataInitializer.InitializeData();
                 await appDataInitializer.InitializeDataAsync(userManager, Configuration);
                 cfgDataInitializer.InitializeData();
-                localizationDataInitializer.InitializeData();
             }
             catch (Exception ex)
             {

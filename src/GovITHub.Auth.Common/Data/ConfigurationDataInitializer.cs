@@ -34,11 +34,20 @@ namespace GovITHub.Auth.Common.Data
                 cfgDbContext.SaveChanges();
             }
 
-            if (cfgDbContext.Scopes.FirstOrDefault() == null)
+            if (cfgDbContext.ApiResources.FirstOrDefault() == null)
             {
-                foreach (var client in Config.GetScopes())
+                foreach (var apiResource in Config.GetApiResources())
                 {
-                    cfgDbContext.Scopes.Add(client.ToEntity());
+                    cfgDbContext.ApiResources.Add(apiResource.ToEntity());
+                }
+                cfgDbContext.SaveChanges();
+            }
+
+            if (cfgDbContext.IdentityResources.FirstOrDefault() == null)
+            {
+                foreach (var identityResource in Config.GetIdentityResources())
+                {
+                    cfgDbContext.IdentityResources.Add(identityResource.ToEntity());
                 }
                 cfgDbContext.SaveChanges();
             }
