@@ -1,22 +1,28 @@
-﻿using System;
+﻿using GovITHub.Auth.Common.Data;
+using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
-using GovITHub.Auth.Common.Data;
 
 namespace GovITHub.Auth.Common.Services.DeviceDetection
 {
     public class LoginDeviceManagementService : ILoginDeviceManagementService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IDeviceDetector _deviceDetector;
 
-        public LoginDeviceManagementService(ApplicationDbContext dbContext)
+        public LoginDeviceManagementService(
+            ApplicationDbContext dbContext,
+            IDeviceDetector deviceDetector)
         {
             _dbContext = dbContext;
+            _deviceDetector = deviceDetector;
         }
 
-        public async Task RegisterDeviceLoginAsync(string userId, DeviceInfo deviceInfo)
+        public async Task RegisterDeviceLoginAsync(string userId, string userAgentString)
         {
+            var deviceInfo = _deviceDetector.GetDeviceInfo(userAgentString);
+
             var device = _dbContext.Set<LoginDevice>().SingleOrDefault(d => d.UserAgent == deviceInfo.UserAgent);
             if (device == null)
             {
