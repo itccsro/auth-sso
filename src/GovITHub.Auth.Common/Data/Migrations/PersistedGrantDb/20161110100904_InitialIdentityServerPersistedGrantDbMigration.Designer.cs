@@ -7,7 +7,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 
 namespace GovITHub.Auth.Common.Data.Migrations.PersistedGrantDb
 {
-    [DbContext(typeof(PersistedGrantDbContext))]
+    [DbContext(typeof(ExtendedPersistedGrantDbContext))]
     [Migration("20161110100904_InitialIdentityServerPersistedGrantDbMigration")]
     partial class InitialIdentityServerPersistedGrantDbMigration
     {

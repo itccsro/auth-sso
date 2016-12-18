@@ -2,9 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using IdentityServer4.Models;
-using IdentityServer4.Services.InMemory;
 using System.Collections.Generic;
-using System.Security.Claims;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace GovITHub.Auth.Common
 {
@@ -34,20 +33,20 @@ namespace GovITHub.Auth.Common
         #endregion
 
         // scopes define the resources in your system
-        internal static IEnumerable<Scope> GetScopes()
+        public static IEnumerable<IdentityResource> GetIdentityResources()
         {
-            return new List<Scope>
+            return new List<IdentityResource>
             {
-                StandardScopes.OpenId,
-                StandardScopes.Profile,
-                StandardScopes.OfflineAccess,
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
+            };
+        }
 
-                new Scope
-                {
-                    Name = "api1",
-                    DisplayName = "API1 access",
-                    Description = "My API"
-                }
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("api1", "My API")
             };
         }
 
@@ -103,11 +102,12 @@ namespace GovITHub.Auth.Common
 
                     AllowedScopes =
                     {
-                        StandardScopes.OpenId.Name,
-                        StandardScopes.Profile.Name,
-                        StandardScopes.OfflineAccess.Name,
-                        "api1"
-                    }
+                        StandardScopes.OpenId,
+                        StandardScopes.Profile,
+                        "api1",
+                        StandardScopes.OfflineAccess
+                    },
+                    AllowOfflineAccess = true
                 },
 
                 // JavaScript Client
@@ -124,40 +124,9 @@ namespace GovITHub.Auth.Common
 
                     AllowedScopes = 
                     {
-                        StandardScopes.OpenId.Name,
-                        StandardScopes.Profile.Name,
+                        StandardScopes.OpenId,
+                        StandardScopes.Profile,
                         "api1"
-                    }
-                }
-            };
-        }
-
-        public static List<InMemoryUser> GetUsers()
-        {
-            return new List<InMemoryUser>
-            {
-                new InMemoryUser
-                {
-                    Subject = "1",
-                    Username = "alice",
-                    Password = "password",
-
-                    Claims = new List<Claim>
-                    {
-                        new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
-                    }
-                },
-                new InMemoryUser
-                {
-                    Subject = "2",
-                    Username = "bob",
-                    Password = "password",
-
-                    Claims = new List<Claim>
-                    {
-                        new Claim("name", "Bob"),
-                        new Claim("website", "https://bob.com")
                     }
                 }
             };

@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "outputFileName": "wwwroot/css/vendor.min.css",
     "inputFiles": [
@@ -57,8 +57,6 @@
         "wwwroot/app/index.route.js",
         "wwwroot/app/index.run.js",
         "wwwroot/app/index.service.js",
-        "wwwroot/app/services/AuthorizationInterceptor.js",
-        "wwwroot/app/services/SecurityService.js",
         "wwwroot/app/directives.js",
         "wwwroot/app/admin.js"
     ],

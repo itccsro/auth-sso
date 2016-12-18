@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using MySQL.Data.Entity.Extensions;
-
-    using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Globalization;
 using WebApiContrib.Core.Formatter.Csv;
 
