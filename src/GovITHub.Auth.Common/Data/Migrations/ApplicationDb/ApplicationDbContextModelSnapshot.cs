@@ -143,8 +143,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
                     b.HasIndex("OrganizationId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("OrganizationUser");
                 });
@@ -389,7 +388,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.HasOne("GovITHub.Auth.Common.Data.Models.Organization", "Organization")
                         .WithMany("OrganizationClients")
                         .HasForeignKey("OrganizationId")
-                        .HasConstraintName("FK_OrgClient_Organization")
+                        .HasConstraintName("FK_Org_OrgClient")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -414,8 +413,8 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                         .HasConstraintName("FK_Org_OrgUsers");
 
                     b.HasOne("GovITHub.Auth.Common.Models.ApplicationUser", "User")
-                        .WithOne("OrganizationUser")
-                        .HasForeignKey("GovITHub.Auth.Common.Data.Models.OrganizationUser", "UserId")
+                        .WithMany("OrganizationUsers")
+                        .HasForeignKey("UserId")
                         .HasConstraintName("FK_AppUser_OrgUser");
                 });
 
