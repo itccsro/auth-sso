@@ -20,6 +20,7 @@ using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using GovITHub.Auth.Common.Data.Impl;
 
 namespace GovITHub.Auth.Identity
 {
@@ -70,13 +71,17 @@ namespace GovITHub.Auth.Identity
             });
 
             // Add application services.
+            services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<ConfigurationDataInitializer>();
             services.AddTransient<ApplicationDataInitializer>();
             services.AddTransient<LocalizationDataInitializer>();
-            services.AddTransient<IEmailSender, PostmarkEmailSender>();
-            services.AddTransient<IEmailSender, SMTPEmailSender>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ISmsSender, SmsSender>();
             services.AddSingleton(Configuration);
+            services.AddTransient<ConfigCommon>();
+
+            // Add auth common services
+            services.AddAuthCommonServices(Configuration);
 
             // Add service and create Policy with options
             services.AddCors(options =>
@@ -180,8 +185,8 @@ namespace GovITHub.Auth.Identity
 
         private void InitFacebookAuthentication(IApplicationBuilder app, ILogger<Startup> logger)
         {
-            string facebookAppId = Configuration[Config.FACEBOOK_APP_ID];
-            string facebookAppSecret = Configuration[Config.FACEBOOK_APP_SECRET];
+            string facebookAppId = Configuration[ConfigCommon.FACEBOOK_APP_ID];
+            string facebookAppSecret = Configuration[ConfigCommon.FACEBOOK_APP_SECRET];
             if (!string.IsNullOrWhiteSpace(facebookAppId) &&
                 !string.IsNullOrWhiteSpace(facebookAppSecret))
             {
@@ -196,8 +201,8 @@ namespace GovITHub.Auth.Identity
 
         private void InitGoogleAuthentication(IApplicationBuilder app, ILogger logger)
         {
-            string googleClientId = Configuration[Config.GOOGLE_CLIENT_ID];
-            string googleClientSecret = Configuration[Config.GOOGLE_CLIENT_SECRET];
+            string googleClientId = Configuration[ConfigCommon.GOOGLE_CLIENT_ID];
+            string googleClientSecret = Configuration[ConfigCommon.GOOGLE_CLIENT_SECRET];
             if (!string.IsNullOrWhiteSpace(googleClientId) &&
                 !string.IsNullOrWhiteSpace(googleClientSecret))
             {
