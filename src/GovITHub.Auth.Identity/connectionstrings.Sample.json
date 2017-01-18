@@ -55,7 +55,7 @@
             "Password": "",
             "Port": "1025",
             "UseSSL": "False",
-            "FromName": "Alex Chiraples",
+            "FromName": "Test",
             "FromEmail": "no-reply@ithub.gov.ro",
             "ProviderName": "SMTP"
         }
