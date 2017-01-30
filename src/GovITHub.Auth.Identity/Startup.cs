@@ -1,4 +1,4 @@
-﻿using GovITHub.Auth.Common;
+using GovITHub.Auth.Common;
 using GovITHub.Auth.Common.Data;
 using GovITHub.Auth.Common.Infrastructure.Configuration;
 using GovITHub.Auth.Common.Models;
@@ -21,6 +21,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using GovITHub.Auth.Common.Data.Impl;
+using GovITHub.Auth.Identity.Infrastructure.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 
 namespace GovITHub.Auth.Identity
@@ -162,8 +163,10 @@ namespace GovITHub.Auth.Identity
                 AutomaticChallenge = false
             });
 
-            InitGoogleAuthentication(app, logger);
-            InitFacebookAuthentication(app, logger);
+            app.AddLinkedInAuthentication(Configuration);
+            app.AddGoogleAuthentication(Configuration);
+            app.AddFacebookAuthentication(Configuration);
+            
 
             app.UseMvc(routes =>
             {
@@ -187,42 +190,6 @@ namespace GovITHub.Auth.Identity
             catch (Exception ex)
             {
                 logger.LogCritical("Error initializing database. Reason : {0}", ex);
-            }
-        }
-
-        private void InitFacebookAuthentication(IApplicationBuilder app, ILogger<Startup> logger)
-        {
-            string facebookAppId = Configuration[ConfigCommon.FACEBOOK_APP_ID];
-            string facebookAppSecret = Configuration[ConfigCommon.FACEBOOK_APP_SECRET];
-            if (!string.IsNullOrWhiteSpace(facebookAppId) &&
-                !string.IsNullOrWhiteSpace(facebookAppSecret))
-            {
-
-                app.UseFacebookAuthentication(new FacebookOptions
-                {
-                    AppId = facebookAppId,
-                    AppSecret = facebookAppSecret
-                });
-            }
-        }
-
-        private void InitGoogleAuthentication(IApplicationBuilder app, ILogger logger)
-        {
-            string googleClientId = Configuration[ConfigCommon.GOOGLE_CLIENT_ID];
-            string googleClientSecret = Configuration[ConfigCommon.GOOGLE_CLIENT_SECRET];
-            if (!string.IsNullOrWhiteSpace(googleClientId) &&
-                !string.IsNullOrWhiteSpace(googleClientSecret))
-            {
-                var googleOptions = new GoogleOptions
-                {
-                    ClientId = googleClientId,
-                    ClientSecret = googleClientSecret
-                };
-                app.UseGoogleAuthentication(googleOptions);
-            }
-            else
-            {
-                logger.LogWarning("Google external authentication credentials not set.");
             }
         }
     }
