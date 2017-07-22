@@ -2,14 +2,14 @@
 Un singur set de credențiale pentru cetățean. La bază este un identity server ce expune un endpoint OAuth2.
 
 ## Setup & Instalare
-Mai multe detalii [Wiki] (Wiki)
+Mai multe detalii [Wiki](Wiki)
 
 ## Contribuie
 
 Dacă vrei să contribui - ești binevenit(ă) - but we don't have cookies (yet) 
 
 ### Proces
-- Ai trecut prin [Wiki] (Wiki) - îți sunt familiare tehnologiile?
+- Ai trecut prin [Wiki](Wiki) - îți sunt familiare tehnologiile?
 - Dacă nu ești încă înscris(ă) în comunitate, te rog fă-o pe [civictech.ro](https://civictech.ro/hai-si-tu)
 - Aruncă o privire la [guidelines](https://github.com/civictechro/guidelines/blob/master/CODE_REVIEW.md) pentru code review 
 - Caută în issues un task interesant pentru tine (sau, dacă ai o propunere, deschide un issue / trimite un pull request). 
