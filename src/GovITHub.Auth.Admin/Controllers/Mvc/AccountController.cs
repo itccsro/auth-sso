@@ -22,6 +22,6 @@ namespace GovITHub.Auth.Admin.Controllers
         {
             return View();
         }
-        
+
     }
 }

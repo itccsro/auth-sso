@@ -1,0 +1,63 @@
+﻿<form name="organizationForm" novalidate>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>Utilizatori</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a ui-sref="index.main">Home</a>
+                </li>
+                <li>
+                    <a ui-sref="index.users">Utilizatori</a>
+                </li>
+                <li>
+                    {{ (vm.status.edit) ? 'Edit' : 'Create' }}
+                </li>
+                <!--<li class="active">
+                    <strong>{{  vm.status.type  }}</strong>
+                </li>-->
+            </ol>
+        </div>
+        <div class="col-sm-8">
+            <div class="title-action">
+                <a class="btn btn-primary btn-sm" ng-click="organizationForm.$valid && vm.save()"><i class="fa fa-save"></i> Salvează</a>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12 b-r">
+                                <div class="form-group">
+                                    <label>Nume</label>
+                                    <span ng-messages="organizationForm.name.$error" class="has-error">
+                                        <span ng-message="required"> (obligatoriu)</span>
+                                        <span ng-message="maxlength"> (Numarul maxim de caractere 200)</span>
+                                    </span>
+                                    <input type="text" name="name" placeholder="gheorghe@ioan.ro"
+                                           ng-model="vm.data.name" ng-maxlength="200" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Level</label>
+                                    <select ng-model="vm.data.level" class="form-control" convert-to-number>
+                                        <option value="0">Admin</option>
+                                        <option value="100">User</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select ng-model="vm.data.status" class="form-control" convert-to-number>
+                                        <option value="1">Activ</option>
+                                        <option value="0">Inactiv</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
-using System.Threading.Tasks;
-using GovITHub.Auth.Admin.Services;
+﻿using GovITHub.Auth.Admin.Services;
 using GovITHub.Auth.Admin.Services.Impl;
 using GovITHub.Auth.Common;
 using GovITHub.Auth.Common.Data;
@@ -16,6 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Admin
 {
@@ -38,7 +38,7 @@ namespace GovITHub.Auth.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;      
+            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;
 
             services.
                 AddEntityFramework().
@@ -48,13 +48,21 @@ namespace GovITHub.Auth.Admin
 
             services.AddSingleton<ISampleRepository, SampleRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
+            services.AddTransient<Common.Data.Contract.IOrganizationUserRepository, OrganizationUserRepository>();
             services.AddTransient<IUserClaimsExtender, UserClaimsExtender>();
 
             // Add auth common services
             services.AddAuthCommonServices(Configuration);
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("LinkedToOrganizationPolicy", policy => policy.Requirements.Add(new Framework.Policy.LinkedToOrganizationRequirement()));
+            });
+
+            services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, Framework.Policy.LinkedToOrganizationHandler>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, IUserClaimsExtender userClaimsExtender)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
