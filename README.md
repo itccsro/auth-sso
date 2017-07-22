@@ -9,8 +9,8 @@ Mai multe detalii [Wiki] (Wiki)
 Dacă vrei să contribui - ești binevenit(ă) - but we don't have cookies (yet) 
 
 ### Proces
-- Vezi lista de tehnologii folosite - îți sunt familiare?
-- Dacă nu ești încă înscris(ă) în comunitate, te rog fă-o pe [site-ul de voluntari GovITHub](https://membri.civictech.ro/)
+- Ai trecut prin [Wiki] (Wiki) - îți sunt familiare tehnologiile?
+- Dacă nu ești încă înscris(ă) în comunitate, te rog fă-o pe [civictech.ro](https://civictech.ro/hai-si-tu)
 - Aruncă o privire la [guidelines](https://github.com/civictechro/guidelines/blob/master/CODE_REVIEW.md) pentru code review 
 - Caută în issues un task interesant pentru tine (sau, dacă ai o propunere, deschide un issue / trimite un pull request). 
 - După ce trecem prin code review - celebrate! :star: :star2: :star:
