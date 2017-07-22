@@ -101,9 +101,51 @@
                         return $stateParams.id;
                     }]
                 }
+            }).state('index.users', {
+                url: "/users",
+                controller: "UsersListController as vm",
+                templateUrl: "app/components/users/list.html",
+                data: {
+                    pageTitle: 'Utilizatori'
+                }
+            })
+            .state('index.users_new', {
+                url: "/users/new",
+                controller: "UsersEditController as vm",
+                templateUrl: "app/components/users/edit.html",
+                data: {
+                    pageTitle: 'Utilizatori'
+                },
+                resolve: {
+                    status: [function () {
+                        return {
+                            edit: false
+                        };
+                    }],
+                    id: [function () {
+                        return null;
+                    }]
+                }
+            })
+            .state('index.users_edit', {
+                url: "/users/:id",
+                controller: "UsersEditController as vm",
+                templateUrl: "app/components/users/edit.html",
+                data: {
+                    pageTitle: 'Utilizatori'
+                },
+                resolve: {
+                    status: [function () {
+                        return {
+                            edit: true
+                        };
+                    }],
+                    id: ['$stateParams', function ($stateParams) {
+                        return $stateParams.id;
+                    }]
+                }
             });
 
         $urlRouterProvider.otherwise('/index/main');
     }
-
 })();
