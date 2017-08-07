@@ -3,7 +3,7 @@ mono: none
 dotnet: 1.0.4
 solution: GovITHub.Auth.Identity.sln
 dist: trusty
-sudo: required
+sudo: required 
 
 install:
     - npm install -g bower
