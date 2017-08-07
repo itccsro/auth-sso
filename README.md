@@ -1,4 +1,4 @@
-# Citizen Single Sign On [![Build Status](https://travis-ci.org/civictechro/auth-sso.svg?branch=master)](https://travis-ci.org/civictechro/auth-sso) [![Stories in Ready](https://badge.waffle.io/civictechro/auth-sso.png?label=ready&title=Ready)](http://waffle.io/civictechro/auth-sso)
+# Citizen Single Sign On [![Build Status](https://travis-ci.org/civictechro/auth-sso.svg?branch=master)](https://travis-ci.org/civictechro/auth-sso) [![BCH compliance](https://bettercodehub.com/edge/badge/civictechro/auth-sso?branch=master)](https://bettercodehub.com/) [![Stories in Ready](https://badge.waffle.io/civictechro/auth-sso.png?label=ready&title=Ready)](http://waffle.io/civictechro/auth-sso)
 Un singur set de credențiale pentru cetățean. La bază este un identity server ce expune un endpoint OAuth2.
 
 ## Setup & Instalare
